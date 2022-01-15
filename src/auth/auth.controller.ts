@@ -14,7 +14,6 @@ export class AuthController {
     async login(@Request() req) {
         if (typeof req != undefined) {
             const data = await req.body
-            return this.userService.validateEmail(data.email)
             return await this.service.login(await data)
         }
     }
@@ -54,7 +53,7 @@ export class AuthController {
             const bcryptPassword = await bcrypt.hash(req.password, salt)
             req.password = bcryptPassword
             await this.userService.create(req)
-            
+
             return await this.service.login(req)
         }
     }
