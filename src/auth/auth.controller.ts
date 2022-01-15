@@ -11,8 +11,9 @@ export class AuthController {
     async login(@Request() req) {
         if (typeof req != undefined) {
             const data = await req.body
-            return await this.login(await data)
+            return await this.service.login(await data)
 
         }
     }
+
 }
