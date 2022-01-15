@@ -30,7 +30,7 @@ export class AuthService {
         const payLoad = { username: user.username }
 
         return {
-            statusCode: 200,
+            statusCode: 201,
             access_token: this.jwtService.sign(payLoad),
         };
     }

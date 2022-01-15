@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { isEmail } from 'class-validator';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
+import { RegisterUserDTO } from './dto/register-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './user.schema';
 
@@ -25,11 +26,15 @@ export class UserService {
         return await this.model.findOne({ username: username }).exec();
     }
 
-    async create(updateUserDto: CreateUserDto): Promise<User> {
-        return await new this.model({
-            ...updateUserDto,
+    async create(registerUserDTO: RegisterUserDTO): Promise<any> {
+        const data = await new this.model({
+            ...registerUserDTO,
             createdAt: new Date(),
-        }).save();
+        })
+
+        const response = await data.save()
+
+        return response
     }
 
     async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
@@ -38,5 +43,9 @@ export class UserService {
 
     async delete(id: string): Promise<User> {
         return await this.model.findByIdAndDelete(id).exec();
+    }
+
+    async validateEmail(email: string) {
+        return isEmail(email)
     }
 }

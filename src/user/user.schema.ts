@@ -15,10 +15,10 @@ export class User {
     role?: string;
 
     @Prop({ unique: true })
-    email?: string;
+    username?: string;
 
     @Prop({ unique: true })
-    username?: string;
+    email?: string;
 
     @Prop()
     password?: string;
