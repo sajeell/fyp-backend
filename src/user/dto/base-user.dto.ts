@@ -4,5 +4,6 @@ export class BaseUserDto {
     password: string
     firstName: string
     lastName: string
-    rol: string
+    role: string
+    username: string
 }

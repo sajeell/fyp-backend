@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
@@ -10,6 +11,7 @@ import { UserService } from './user.service';
 export class UserController {
     constructor(private readonly service: UserService) { }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     async index() {
         return await this.service.findAll();

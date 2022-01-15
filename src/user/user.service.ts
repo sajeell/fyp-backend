@@ -17,6 +17,14 @@ export class UserService {
         return await this.model.findById(id).exec();
     }
 
+    async findOneByEmail(email: string): Promise<User> {
+        return await this.model.findOne({ email: email }).exec();
+    }
+
+    async findOneByUsername(username: string): Promise<User> {
+        return await this.model.findOne({ username: username }).exec();
+    }
+
     async create(updateUserDto: CreateUserDto): Promise<User> {
         return await new this.model({
             ...updateUserDto,
