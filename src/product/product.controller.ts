@@ -14,10 +14,15 @@ export class ProductController {
         return await this.service.findAll(skip, limit)
     }
 
-
     @UseGuards(JwtAuthGuard)
     @Post()
     async createProduct(@Body() productDTO: BaseProductDTO) {
         return await this.service.create(productDTO)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('featured')
+    async getFeatured() {
+        return await this.service.findFeatured()
     }
 }

@@ -28,4 +28,12 @@ export class ProductService {
 
         return data
     }
+
+    async findFeatured(): Promise<any> {
+        const data = await this.model.find({
+            featured: true
+        })
+
+        return data
+    }
 }
