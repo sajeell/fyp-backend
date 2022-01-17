@@ -36,4 +36,39 @@ export class ProductService {
 
         return data
     }
+
+    async findFeaturedAntiques(): Promise<any> {
+        const data = await this.model.find({
+            featured: true,
+            category: "Antique"
+        })
+
+        return data
+    }
+
+    async findAntiques(): Promise<any> {
+        const data = await this.model.find({
+            category: "Antique"
+        })
+
+        console.log(data)
+        return data
+    }
+
+    async findFeaturedHandmade(): Promise<any> {
+        const data = await this.model.find({
+            featured: true,
+            category: "Handmade"
+        })
+
+        return data
+    }
+
+    async findHandmade(): Promise<any> {
+        const data = await this.model.find({
+            category: "Handmade"
+        })
+
+        return data
+    }
 }

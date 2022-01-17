@@ -25,4 +25,28 @@ export class ProductController {
     async getFeatured() {
         return await this.service.findFeatured()
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('featured-antiques')
+    async getFeaturedAntiques() {
+        return await this.service.findFeaturedAntiques()
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('featured-handmade')
+    async getFeaturedHandmade() {
+        return await this.service.findFeaturedHandmade()
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('antiques')
+    async getAntiques() {
+        return await this.service.findAntiques()
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('handmade')
+    async getHandmade() {
+        return await this.service.findHandmade()
+    }
 }
