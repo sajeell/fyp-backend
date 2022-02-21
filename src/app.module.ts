@@ -7,9 +7,15 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 
 @Module({
-  imports: [UserModule, MongooseModule.forRoot('mongodb+srv://root:12345@fyp.iydmr.mongodb.net/FYP?retryWrites=true&w=majority'), AuthModule, ProductModule],
+  imports: [
+    UserModule,
+    MongooseModule.forRoot(
+      'mongodb+srv://root:12345@fyp.iydmr.mongodb.net/FYP?retryWrites=true&w=majority',
+    ),
+    AuthModule,
+    ProductModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-
-export class AppModule { }
+export class AppModule {}

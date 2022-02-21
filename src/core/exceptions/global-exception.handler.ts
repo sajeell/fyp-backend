@@ -21,7 +21,7 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
       const badRequest = new BadRequestException({
         value: { ...exception.keyValue },
         message: Object.keys(exception.keyValue).map(
-          o => `${o} already exists`,
+          (o) => `${o} already exists`,
         ),
       });
       super.catch(badRequest, host);

@@ -8,44 +8,46 @@ import { User, UserDocument } from './user.schema';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel(User.name) private readonly model: Model<UserDocument>) { }
+  constructor(
+    @InjectModel(User.name) private readonly model: Model<UserDocument>,
+  ) {}
 
-    async findAll(): Promise<User[]> {
-        return await this.model.find().exec();
-    }
+  async findAll(): Promise<User[]> {
+    return await this.model.find().exec();
+  }
 
-    async findOne(id: string): Promise<User> {
-        return await this.model.findById(id).exec();
-    }
+  async findOne(id: string): Promise<User> {
+    return await this.model.findById(id).exec();
+  }
 
-    async findOneByEmail(email: string): Promise<User> {
-        return await this.model.findOne({ email: email }).exec();
-    }
+  async findOneByEmail(email: string): Promise<User> {
+    return await this.model.findOne({ email: email }).exec();
+  }
 
-    async findOneByUsername(username: string): Promise<User> {
-        return await this.model.findOne({ username: username }).exec();
-    }
+  async findOneByUsername(username: string): Promise<User> {
+    return await this.model.findOne({ username: username }).exec();
+  }
 
-    async create(registerUserDTO: RegisterUserDTO): Promise<any> {
-        const data = await new this.model({
-            ...registerUserDTO,
-            createdAt: new Date(),
-        })
+  async create(registerUserDTO: RegisterUserDTO): Promise<any> {
+    const data = await new this.model({
+      ...registerUserDTO,
+      createdAt: new Date(),
+    });
 
-        const response = await data.save()
+    const response = await data.save();
 
-        return response
-    }
+    return response;
+  }
 
-    async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-        return await this.model.findByIdAndUpdate(id, updateUserDto).exec();
-    }
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    return await this.model.findByIdAndUpdate(id, updateUserDto).exec();
+  }
 
-    async delete(id: string): Promise<User> {
-        return await this.model.findByIdAndDelete(id).exec();
-    }
+  async delete(id: string): Promise<User> {
+    return await this.model.findByIdAndDelete(id).exec();
+  }
 
-    async validateEmail(email: string) {
-        return isEmail(email)
-    }
+  async validateEmail(email: string) {
+    return isEmail(email);
+  }
 }

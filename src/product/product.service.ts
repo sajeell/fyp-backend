@@ -6,69 +6,71 @@ import { Product, ProductDocument } from './product.schema';
 
 @Injectable()
 export class ProductService {
-    constructor(@InjectModel(Product.name) private readonly model: Model<ProductDocument>) { }
+  constructor(
+    @InjectModel(Product.name) private readonly model: Model<ProductDocument>,
+  ) {}
 
-    async findAll(documentsToSkip = 0, limitOfDocuments?: number): Promise<Product[]> {
-        const query = this.model
-            .find()
-            .sort({ _id: 1 })
-            .skip(documentsToSkip)
+  async findAll(
+    documentsToSkip = 0,
+    limitOfDocuments?: number,
+  ): Promise<Product[]> {
+    const query = this.model.find().sort({ _id: 1 }).skip(documentsToSkip);
 
-        if (limitOfDocuments) {
-            query.limit(limitOfDocuments);
-        }
-        return query;
+    if (limitOfDocuments) {
+      query.limit(limitOfDocuments);
     }
+    return query;
+  }
 
-    async create(productDTO: BaseProductDTO): Promise<any> {
-        const data = await new this.model({
-            ...productDTO,
-            createdAt: new Date(),
-        }).save()
+  async create(productDTO: BaseProductDTO): Promise<any> {
+    const data = await new this.model({
+      ...productDTO,
+      createdAt: new Date(),
+    }).save();
 
-        return data
-    }
+    return data;
+  }
 
-    async findFeatured(): Promise<any> {
-        const data = await this.model.find({
-            featured: true
-        })
+  async findFeatured(): Promise<any> {
+    const data = await this.model.find({
+      featured: true,
+    });
 
-        return data
-    }
+    return data;
+  }
 
-    async findFeaturedAntiques(): Promise<any> {
-        const data = await this.model.find({
-            featured: true,
-            category: "Antique"
-        })
+  async findFeaturedAntiques(): Promise<any> {
+    const data = await this.model.find({
+      featured: true,
+      category: 'Antique',
+    });
 
-        return data
-    }
+    return data;
+  }
 
-    async findAntiques(): Promise<any> {
-        const data = await this.model.find({
-            category: "Antique"
-        })
+  async findAntiques(): Promise<any> {
+    const data = await this.model.find({
+      category: 'Antique',
+    });
 
-        console.log(data)
-        return data
-    }
+    console.log(data);
+    return data;
+  }
 
-    async findFeaturedHandmade(): Promise<any> {
-        const data = await this.model.find({
-            featured: true,
-            category: "Handmade"
-        })
+  async findFeaturedHandmade(): Promise<any> {
+    const data = await this.model.find({
+      featured: true,
+      category: 'Handmade',
+    });
 
-        return data
-    }
+    return data;
+  }
 
-    async findHandmade(): Promise<any> {
-        const data = await this.model.find({
-            category: "Handmade"
-        })
+  async findHandmade(): Promise<any> {
+    const data = await this.model.find({
+      category: 'Handmade',
+    });
 
-        return data
-    }
+    return data;
+  }
 }

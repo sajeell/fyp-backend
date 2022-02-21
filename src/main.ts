@@ -1,5 +1,9 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder, SwaggerCustomOptions } from '@nestjs/swagger';
+import {
+  SwaggerModule,
+  DocumentBuilder,
+  SwaggerCustomOptions,
+} from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionsFilter } from './core/exceptions/global-exception.handler';
@@ -17,7 +21,6 @@ async function bootstrap() {
   // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
   app.enableCors();
 
-
   const config = new DocumentBuilder()
     .setTitle('Barganttic')
     .setDescription('Barganttic backend')
@@ -34,7 +37,7 @@ async function bootstrap() {
     },
   });
 
-  const PORT = process.env.PORT || 3000
+  const PORT = process.env.PORT || 3000;
 
   await app.listen(PORT, () => {
     console.log(`App running on port ${PORT}`);
