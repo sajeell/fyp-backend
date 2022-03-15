@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { NotificationService } from './notification/notification.service';
 import { NotificationModule } from './notification/notification.module';
+import { BiddingService } from './bidding/bidding.service';
+import { BiddingModule } from './bidding/bidding.module';
 
 @Module({
   imports: [
@@ -17,8 +19,9 @@ import { NotificationModule } from './notification/notification.module';
     AuthModule,
     ProductModule,
     NotificationModule,
+    BiddingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
