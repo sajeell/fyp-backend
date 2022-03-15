@@ -8,22 +8,42 @@ export class BiddingService {
         this.startTime = startTimeArg
     }
 
-    async biddingStart(): Promise<String> {
+    async biddingStart(): Promise<Object> {
         try {
             const durationMinutes = 1
             let endTime = new Date()
             let difference = endTime.getTime() - this.startTime.getTime()
             let resultInMinutes = Math.round(difference / 60000)
 
+            const participants = [{
+                id: 1,
+                maxBidPrice: 200
+            }, {
+                id: 2,
+                maxBidPrice: 210
+            }, {
+                id: 3,
+                maxBidPrice: 207
+            }, {
+                id: 4,
+                maxBidPrice: 220
+            }]
+
+            const minPrice = 198
+
             while (resultInMinutes < durationMinutes) {
                 endTime = new Date()
                 difference = endTime.getTime() - this.startTime.getTime()
                 resultInMinutes = Math.round(difference / 60000)
 
-                console.log(new Date().getMinutes())
+
+
             }
 
-            return "End"
+            return {
+                success: true,
+                message: 'Success'
+            }
         } catch (error) {
             console.error(error)
         }
