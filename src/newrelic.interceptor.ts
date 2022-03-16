@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const util = require('util');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const newrelic = require('newrelic');
+const newrelic = require('./newrelic');
 
 @Injectable()
 export class NewrelicInterceptor implements NestInterceptor {
