@@ -10,9 +10,9 @@ export class NotificationService {
   constructor(
     @InjectModel(Notification.name)
     private readonly model: Model<NotificationDocument>,
-  ) {}
+  ) { }
 
-  async notifyUser(): Promise<void> {
+  async notifyUser(arg: NotificationDTO): Promise<void> {
     try {
       var smtpConfig = {
         host: 'smtp.gmail.com',
@@ -29,10 +29,10 @@ export class NotificationService {
       // replace hardcoded options with data passed (somedata)
       var mailOptions = {
         from: 'barganttic@gmail.com', // sender address
-        to: 'sajeel.ahmed@protonmail.com', // list of receivers
-        subject: 'Test email', // Subject line
-        text: 'this is some text', //, // plaintext body
-        html: '<b>Hello world ✔</b>', // You can choose to send an HTML body instead
+        to: arg.receiverId, // list of receivers
+        subject: 'Email', // Subject line
+        text: arg.message, //, // plaintext body
+        html: `<b>You have won ✔</b>`, // You can choose to send an HTML body instead
       }
 
       transporter.sendMail(mailOptions, function (error, info) {
