@@ -1,25 +1,25 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core'
 import {
   SwaggerModule,
   DocumentBuilder,
   SwaggerCustomOptions,
-} from '@nestjs/swagger';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { ValidationPipe } from '@nestjs/common';
-import { AllExceptionsFilter } from './core/exceptions/global-exception.handler';
-import { AppModule } from 'src/app.module';
+} from '@nestjs/swagger'
+import { NestExpressApplication } from '@nestjs/platform-express'
+import { ValidationPipe } from '@nestjs/common'
+import { AllExceptionsFilter } from './core/exceptions/global-exception.handler'
+import { AppModule } from 'src/app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       whitelist: true,
     }),
-  );
-  const { httpAdapter } = app.get(HttpAdapterHost);
+  )
+  const { httpAdapter } = app.get(HttpAdapterHost)
   // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
-  app.enableCors();
+  app.enableCors()
 
   const config = new DocumentBuilder()
     .setTitle('Barganttic')
@@ -27,20 +27,20 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('fyp')
     .addBearerAuth()
-    .build();
+    .build()
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config)
 
   SwaggerModule.setup('docs', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
     },
-  });
+  })
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 3000
 
   await app.listen(PORT, () => {
-    console.log(`App running on port ${PORT}`);
-  });
+    console.log(`App running on port ${PORT}`)
+  })
 }
-bootstrap();
+bootstrap()

@@ -1,16 +1,16 @@
-import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsString } from 'class-validator'
 
-export class NotificationDTO{
-    @IsNotEmpty()
-    @IsString()
-    message: string;
+export class NotificationDTO {
+  @IsNotEmpty()
+  @IsString()
+  message: string
 
-    @IsString()
-    senderId: string;
+  @IsString()
+  senderId: string
 
-    @IsString()
-    receiverId: string;
+  @IsString()
+  receiverId: string
 
-    @IsBoolean()
-    isFromAdmin: boolean;
+  @IsBoolean()
+  isFromAdmin: boolean
 }
