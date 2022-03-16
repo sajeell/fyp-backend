@@ -58,7 +58,7 @@ export class BiddingService {
 
       while (resultInMinutes < durationMinutes) {
         if (currentPrice === 0) {
-          currentPrice = minPrice + increment
+          currentPrice = minPrice
         } else {
           currentPrice = currentPrice + increment
         }
@@ -77,8 +77,6 @@ export class BiddingService {
         if (checkForDeadlock === true) {
           return false
         }
-
-        const highestBid = sortedArray[sortedArray.length - 1]
 
         endTime = new Date()
         difference = endTime.getTime() - this.startTime.getTime()
