@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "postinstall": "tsc --sourceMap false"
+    "postinstall": "tsc --sourceMap false && yarn copy:newrelic",
+    "copy:newrelic": "cpx 'src/newrelic.js' 'dist/src/newrelic.js'"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -35,6 +36,7 @@
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "cpx": "^1.5.0",
     "kafkajs": "^1.16.0",
     "mongoose": "^6.1.6",
     "newrelic": "^8.9.0",

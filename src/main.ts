@@ -8,7 +8,6 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { ValidationPipe } from '@nestjs/common'
 import { AllExceptionsFilter } from './core/exceptions/global-exception.handler'
 import { AppModule } from 'src/app.module'
-import { NewrelicInterceptor } from './newrelic.interceptor'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -20,7 +19,6 @@ async function bootstrap() {
   )
   const { httpAdapter } = app.get(HttpAdapterHost)
   // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
-  app.useGlobalInterceptors(new NewrelicInterceptor());
   app.enableCors()
 
   const config = new DocumentBuilder()
