@@ -6,7 +6,7 @@ import { BiddingService } from './bidding.service'
 @Module({
   imports: [NotificationService],
   controllers: [BiddingController],
-  providers: [BiddingService],
+  providers: [BiddingService, NotificationService],
   exports: [BiddingService],
 })
-export class BiddingModule {}
+export class BiddingModule { }

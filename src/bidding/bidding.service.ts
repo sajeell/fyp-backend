@@ -5,9 +5,8 @@ import { NotificationService } from 'src/notification/notification.service'
 export class BiddingService {
   private startTime: Date = null
   constructor(
-    @Inject()
     private readonly notificationService: NotificationService,
-  ) {}
+  ) { }
 
   setStartTime(startTimeArg): void {
     this.startTime = startTimeArg
@@ -29,31 +28,31 @@ export class BiddingService {
         currentBid: Number
         email: string
       }> = [
-        {
-          id: 4,
-          maxBidPrice: 200,
-          currentBid: null,
-          email: 'sajeel.ahmed@protonmail.com',
-        },
-        {
-          id: 3,
-          maxBidPrice: 210,
-          currentBid: null,
-          email: 'sajeel.ahmed@protonmail.com',
-        },
-        {
-          id: 22,
-          maxBidPrice: 207,
-          currentBid: null,
-          email: 'sajeel.ahmed@protonmail.com',
-        },
-        {
-          id: 1,
-          maxBidPrice: 220,
-          currentBid: null,
-          email: 'sajeel.ahmed@protonmail.com',
-        },
-      ]
+          {
+            id: 4,
+            maxBidPrice: 200,
+            currentBid: null,
+            email: 'sajeel.ahmed@protonmail.com',
+          },
+          {
+            id: 3,
+            maxBidPrice: 210,
+            currentBid: null,
+            email: 'sajeel.ahmed@protonmail.com',
+          },
+          {
+            id: 22,
+            maxBidPrice: 207,
+            currentBid: null,
+            email: 'sajeel.ahmed@protonmail.com',
+          },
+          {
+            id: 1,
+            maxBidPrice: 220,
+            currentBid: null,
+            email: 'myyddaa@gmail.com',
+          },
+        ]
 
       const minPrice = 198
       const increment = 4
