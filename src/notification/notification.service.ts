@@ -10,7 +10,7 @@ export class NotificationService {
   constructor(
     @InjectModel(Notification.name)
     private readonly model: Model<NotificationDocument>,
-  ) { }
+  ) {}
 
   async notifyUser(arg: NotificationDTO): Promise<void> {
     try {
