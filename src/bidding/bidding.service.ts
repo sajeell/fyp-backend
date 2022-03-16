@@ -106,7 +106,6 @@ export class BiddingService {
         return 0;
     }
 
-
     /**
      * 
      * @param array 
