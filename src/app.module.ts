@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module'
 import { ProductModule } from './product/product.module'
 import { BiddingModule } from './bidding/bidding.module'
 
+
 @Module({
   imports: [
     UserModule,

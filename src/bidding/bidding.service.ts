@@ -50,7 +50,7 @@ export class BiddingService {
             id: 1,
             maxBidPrice: 220,
             currentBid: null,
-            email: 'myyddaa@gmail.com',
+            email: 'sajeel.ahmed@protonmail.com',
           },
         ]
 
@@ -136,7 +136,7 @@ export class BiddingService {
    * @param array
    * @returns true if deadlock can occur
    */
-  private checkForDeadlock(array) {
+  private checkForDeadlock(array: Array<any>) {
     let highestBid = array[array.length - 1]
     let count = 0
 
