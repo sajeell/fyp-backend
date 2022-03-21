@@ -8,7 +8,7 @@ import { Product, ProductDocument } from './product.schema'
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly model: Model<ProductDocument>,
-  ) {}
+  ) { }
 
   async findAll(
     documentsToSkip = 0,
@@ -72,5 +72,21 @@ export class ProductService {
     })
 
     return data
+  }
+
+  /**
+   * 
+   * @param id : string
+   * @returns true if product is successfully deleted
+   */
+  async deleteProduct(id: string): Promise<boolean> {
+
+    const data = await this.model.deleteOne({
+      where: {
+        _id: id
+      }
+    })
+
+    return data.acknowledged
   }
 }

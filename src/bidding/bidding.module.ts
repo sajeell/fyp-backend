@@ -4,7 +4,6 @@ import { BiddingController } from './bidding.controller'
 import { BiddingService } from './bidding.service'
 
 @Module({
-  imports: [NotificationService],
   controllers: [BiddingController],
   providers: [BiddingService, NotificationService],
   exports: [BiddingService],

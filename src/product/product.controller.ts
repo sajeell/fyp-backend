@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { PaginationParams } from 'src/pagination-params'
 import { BaseProductDTO } from './dto/base-product.dto'
@@ -6,7 +6,7 @@ import { ProductService } from './product.service'
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly service: ProductService) {}
+  constructor(private readonly service: ProductService) { }
 
   @UseGuards(JwtAuthGuard)
   @Get()
@@ -48,5 +48,11 @@ export class ProductController {
   @Get('handmade')
   async getHandmade() {
     return await this.service.findHandmade()
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  async deleteProduct(@Param('id') id) {
+    return await this.service.deleteProduct(id)
   }
 }
