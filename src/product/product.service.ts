@@ -51,19 +51,25 @@ export class ProductService {
 
   async findFeatured(): Promise<any> {
     const data = await this.model.find({
-      featured: true,
+      where: {
+        featured: true,
+      }
     })
 
     return data
   }
 
   async findFeaturedAntiques(): Promise<any> {
-    const data = await this.model.find({
-      featured: true,
-      category: 'Antique',
-    })
+    try {
+      const data = await this.model.find({
+        featured: true,
+        category: 'Antique',
+      })
 
-    return data
+      return data
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   async findAntiques(): Promise<any> {
@@ -71,7 +77,6 @@ export class ProductService {
       category: 'Antique',
     })
 
-    console.log(data)
     return data
   }
 

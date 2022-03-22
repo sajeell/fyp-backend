@@ -15,7 +15,7 @@ export class ProductController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':id')
+  @Get('/by/:id')
   async getProductById(@Param('id') id) {
     return await this.service.findOneById(id)
   }
