@@ -6,6 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { AuthModule } from './auth/auth.module'
 import { ProductModule } from './product/product.module'
 import { BiddingModule } from './bidding/bidding.module'
+import { ReviewService } from './review/review.service';
+import { ReviewModule } from './review/review.module';
 
 
 @Module({
@@ -17,6 +19,7 @@ import { BiddingModule } from './bidding/bidding.module'
     AuthModule,
     ProductModule,
     BiddingModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService]

@@ -15,6 +15,12 @@ export class ProductController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async getProductById(@Param('id') id) {
+    return await this.service.findOneById(id)
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   async createProduct(@Body() productDTO: BaseProductDTO) {
     return await this.service.create(productDTO)

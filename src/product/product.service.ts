@@ -22,6 +22,24 @@ export class ProductService {
     return query
   }
 
+  async findOneById(id: string): Promise<any> {
+    try {
+      const data = await this.model.findById(id)
+
+      if (data === null) {
+        return {
+          message: 'Not Found'
+        }
+      }
+
+      return data
+
+    } catch (error) {
+      console.error(error)
+      return error
+    }
+  }
+
   async create(productDTO: BaseProductDTO): Promise<any> {
     const data = await new this.model({
       ...productDTO,
