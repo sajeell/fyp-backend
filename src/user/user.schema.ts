@@ -5,11 +5,24 @@ export type UserDocument = User & Document
 
 @Schema()
 export class User {
+
+  @Prop()
+  _id: string
+
   @Prop()
   firstName: string
 
   @Prop()
   lastName?: string
+
+  @Prop()
+  stripeAccountId: string
+
+  @Prop()
+  stripeCardId: string
+
+  @Prop()
+  stripeCustomerId: string
 
   @Prop()
   role?: string

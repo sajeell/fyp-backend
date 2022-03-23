@@ -378,6 +378,36 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@golevelup/nestjs-common@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@golevelup/nestjs-common/-/nestjs-common-1.4.3.tgz#477f48dbc711189a7f382aab17f5fbfad55a2766"
+  integrity sha512-ArEC1esJZWZZhEqV6KgzPflZgnVOsdswJTykwgLpX+QgIhSFmGx5W+veetf2Aky3hM5p6liTNYlBR6rvVJ/zsA==
+  dependencies:
+    nanoid "^3.2.0"
+
+"@golevelup/nestjs-discovery@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@golevelup/nestjs-discovery/-/nestjs-discovery-3.0.0.tgz#7c821924c2a8148928ef9bb0e9b995799b3087c8"
+  integrity sha512-ZvkXtobTKxXB1LJanP/l6Z/Fing88IMBr3uabQpU2IWjfsstjh02qYDSU2cfD6CSmNldX5ewW5Pd+SdK2lU8Sw==
+  dependencies:
+    lodash "^4.17.15"
+
+"@golevelup/nestjs-modules@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@golevelup/nestjs-modules/-/nestjs-modules-0.5.0.tgz#9763769043e18a184da1ea885c02fb490d1ec3c9"
+  integrity sha512-6ZGjPtm0KwJ7Txa3Z14IzILi7pfvGrLZHv/q9/4tt7T5ngcCe71wJp32TG0/b3UkJX3/LEm4AtYjcfwiIrfSlg==
+  dependencies:
+    lodash "^4.17.21"
+
+"@golevelup/nestjs-stripe@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@golevelup/nestjs-stripe/-/nestjs-stripe-0.3.2.tgz#3e282a88f2dd8a35319437901b4af09a91f33b45"
+  integrity sha512-8FlArCtYsqGj9sOgYNTMsOPwfgLxIYNSw6LwA2DYEH8/5JJMvTfefhchQxIuHRlg2QeQH3vw68hRC+EWH1IlbA==
+  dependencies:
+    "@golevelup/nestjs-common" "^1.4.3"
+    "@golevelup/nestjs-discovery" "^3.0.0"
+    "@golevelup/nestjs-modules" "^0.5.0"
+
 "@grpc/grpc-js@^1.5.5":
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.5.8.tgz#ae42b78a1de8dfabeb638d93dabb1c2e27ca0e34"
@@ -1074,6 +1104,11 @@
   version "17.0.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.21.tgz#864b987c0c68d07b4345845c3e63b75edd143644"
   integrity sha512-DBZCJbhII3r90XbQxI8Y9IjjiiOGlZ0Hr32omXIZvwwZ7p4DMMXGrKXVyPfuoBOri9XNtL0UK69jYIBIsRX3QQ==
+
+"@types/node@>=8.1.0":
+  version "17.0.22"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.22.tgz#38b6c4b9b2f3ed9f2e376cce42a298fb2375251e"
+  integrity sha512-8FwbVoG4fy+ykY86XCAclKZDORttqE5/s7dyWZKLXTdv3vRy5HozBEinG5IqhvPXXzIZEcTVbuHlQEI6iuwcmw==
 
 "@types/node@^16.0.0":
   version "16.11.26"
@@ -4505,7 +4540,7 @@ lodash.once@^4.0.0:
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
 
-lodash@4.17.21, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.7.0:
+lodash@4.17.21, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -4818,6 +4853,11 @@ nan@^2.12.1, nan@^2.15.0:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
+
+nanoid@^3.2.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.1.tgz#6347a18cac88af88f58af0b3594b723d5e99bb35"
+  integrity sha512-n6Vs/3KGyxPQd6uO0eH4Bv0ojGSUvuLlIHtC3Y0kEO23YRge8H9x1GCzLn28YX0H66pMkxuaeESFq4tKISKwdw==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -5342,7 +5382,7 @@ qs@6.9.7:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.7.tgz#4610846871485e1e048f44ae3b94033f0e675afe"
   integrity sha512-IhMFgUmuNpyRfxA90umL7ByLlgRXu6tIfKPpF5TmcfRLlLCckfP/g3IQmju6jjpu+Hh8rA+2p6A27ZSPOOHdKw==
 
-qs@^6.10.1:
+qs@^6.10.1, qs@^6.6.0:
   version "6.10.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.3.tgz#d6cde1b2ffca87b5aa57889816c5f81535e22e8e"
   integrity sha512-wr7M2E0OFRfIfJZjKGieI8lBKb7fRCH4Fv5KNPEs7gJ8jadvotdsS08PzOKR7opXhZ/Xkjtt3WF9g38drmyRqQ==
@@ -5963,6 +6003,14 @@ strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
+
+stripe@^8.210.0:
+  version "8.210.0"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.210.0.tgz#6e5ede9abd36406d39b89d9129df86fb33f43db3"
+  integrity sha512-NDQNEInrr1avwSEDB7Phe7PYNejtU9EkhOBlPa90Aomc3WvSXgOuX8MpswQ1mTw+W/lGpePwVqMsUvrvhUjZfA==
+  dependencies:
+    "@types/node" ">=8.1.0"
+    qs "^6.6.0"
 
 subarg@^1.0.0:
   version "1.0.0"
