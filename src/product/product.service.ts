@@ -8,7 +8,7 @@ import { Product, ProductDocument } from './product.schema'
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly model: Model<ProductDocument>,
-  ) { }
+  ) {}
 
   async findAll(
     documentsToSkip = 0,
@@ -28,12 +28,11 @@ export class ProductService {
 
       if (data === null) {
         return {
-          message: 'Not Found'
+          message: 'Not Found',
         }
       }
 
       return data
-
     } catch (error) {
       console.error(error)
       return error
@@ -53,7 +52,7 @@ export class ProductService {
     const data = await this.model.find({
       where: {
         featured: true,
-      }
+      },
     })
 
     return data
@@ -98,16 +97,15 @@ export class ProductService {
   }
 
   /**
-   * 
+   *
    * @param id : string
    * @returns true if product is successfully deleted
    */
   async deleteProduct(id: string): Promise<boolean> {
-
     const data = await this.model.deleteOne({
       where: {
-        _id: id
-      }
+        _id: id,
+      },
     })
 
     return data.acknowledged

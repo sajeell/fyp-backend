@@ -9,7 +9,7 @@ export class AuthService {
   constructor(
     private usersService: UserService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.usersService.findOneByUsername(username)
@@ -29,8 +29,9 @@ export class AuthService {
   }
 
   async login(user: LoginUserDTO) {
-
-    const userData: any = await this.usersService.findOneByUsername(user.username)
+    const userData: any = await this.usersService.findOneByUsername(
+      user.username,
+    )
 
     if (user === null) {
       return null

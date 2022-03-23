@@ -8,7 +8,7 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { ValidationPipe } from '@nestjs/common'
 import { AllExceptionsFilter } from './core/exceptions/global-exception.handler'
 import { AppModule } from 'src/app.module'
-require("newrelic")
+require('newrelic')
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)

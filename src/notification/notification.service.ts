@@ -7,8 +7,7 @@ import * as nodemailer from 'nodemailer'
 
 @Injectable()
 export class NotificationService {
-  constructor(
-  ) { }
+  constructor() {}
 
   async notifyUser(arg: NotificationDTO): Promise<void> {
     try {

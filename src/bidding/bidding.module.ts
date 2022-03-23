@@ -8,4 +8,4 @@ import { BiddingService } from './bidding.service'
   providers: [BiddingService, NotificationService],
   exports: [BiddingService],
 })
-export class BiddingModule { }
+export class BiddingModule {}

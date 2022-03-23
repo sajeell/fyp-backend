@@ -6,9 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { AuthModule } from './auth/auth.module'
 import { ProductModule } from './product/product.module'
 import { BiddingModule } from './bidding/bidding.module'
-import { ReviewService } from './review/review.service';
-import { ReviewModule } from './review/review.module';
-
+import { ReviewModule } from './review/review.module'
+import { PaymentModule } from './payment/payment.module'
 
 @Module({
   imports: [
@@ -20,8 +19,9 @@ import { ReviewModule } from './review/review.module';
     ProductModule,
     BiddingModule,
     ReviewModule,
+    PaymentModule,
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
