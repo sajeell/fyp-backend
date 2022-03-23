@@ -10,7 +10,7 @@ import { User, UserDocument } from './user.schema'
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly model: Model<UserDocument>,
-  ) { }
+  ) {}
 
   async findAll(): Promise<User[]> {
     return await this.model.find().exec()
@@ -19,8 +19,8 @@ export class UserService {
   async findOne(id: string): Promise<User> {
     return await this.model.findOne({
       where: {
-        _id: id
-      }
+        _id: id,
+      },
     })
   }
 
@@ -44,21 +44,32 @@ export class UserService {
   }
 
   async addStripeAccountId(userId, accountId): Promise<any> {
-    const data = this.model.findOneAndUpdate(userId, { stripeAccountId: accountId })
+    const data = this.model.findOneAndUpdate(userId, {
+      stripeAccountId: accountId,
+    })
     const response = await data.exec()
 
     return response.toJSON()
   }
 
-  async addStripeCustomerId(userId, stripeCustomerId, stripeCardId): Promise<any> {
-    const data = this.model.findOneAndUpdate(userId, { stripeCustomerId: stripeCustomerId, stripeCardId: stripeCardId })
+  async addStripeCustomerId(
+    userId,
+    stripeCustomerId,
+    stripeCardId,
+  ): Promise<any> {
+    const data = this.model.findOneAndUpdate(userId, {
+      stripeCustomerId: stripeCustomerId,
+      stripeCardId: stripeCardId,
+    })
     const response = await data.exec()
 
     return response
   }
 
   async addStripeOneCustomerId(userId, stripeCustomerId): Promise<any> {
-    const data = this.model.findOneAndUpdate(userId, { stripeCustomerId: stripeCustomerId })
+    const data = this.model.findOneAndUpdate(userId, {
+      stripeCustomerId: stripeCustomerId,
+    })
     const response = await data.exec()
 
     return response
