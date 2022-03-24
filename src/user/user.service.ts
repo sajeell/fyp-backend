@@ -10,7 +10,7 @@ import { User, UserDocument } from './user.schema'
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly model: Model<UserDocument>,
-  ) {}
+  ) { }
 
   async findAll(): Promise<User[]> {
     return await this.model.find().exec()
@@ -32,7 +32,7 @@ export class UserService {
     return await this.model.findOne({ username: username }).exec()
   }
 
-  async create(registerUserDTO: RegisterUserDTO): Promise<any> {
+  async create(registerUserDTO: any): Promise<any> {
     const data = await new this.model({
       ...registerUserDTO,
       createdAt: new Date(),
@@ -43,8 +43,8 @@ export class UserService {
     return response
   }
 
-  async addStripeAccountId(userId, accountId): Promise<any> {
-    const data = this.model.findOneAndUpdate(userId, {
+  async addStripeAccountId(username, accountId): Promise<any> {
+    const data = this.model.findOneAndUpdate(username, {
       stripeAccountId: accountId,
     })
     const response = await data.exec()
@@ -53,11 +53,11 @@ export class UserService {
   }
 
   async addStripeCustomerId(
-    userId,
+    username,
     stripeCustomerId,
     stripeCardId,
   ): Promise<any> {
-    const data = this.model.findOneAndUpdate(userId, {
+    const data = this.model.findOneAndUpdate(username, {
       stripeCustomerId: stripeCustomerId,
       stripeCardId: stripeCardId,
     })

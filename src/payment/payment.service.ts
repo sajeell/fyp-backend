@@ -88,7 +88,7 @@ export class PaymentService {
         },
       })
 
-      return this.userService.addStripeAccountId(user._id, stripeAccountId)
+      return this.userService.addStripeAccountId(user.username, stripeAccountId)
     } catch (error) {
       console.log(
         '🚀 ~ file: payment.service.ts ~ line 83 ~ PaymentService ~ createAccount ~ error',
@@ -250,7 +250,7 @@ export class PaymentService {
       user.stripeCardId = stripeCardId
 
       this.userService.addStripeCustomerId(
-        user._id,
+        user.username,
         stripeCustomerId,
         stripeCardId,
       )
