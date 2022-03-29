@@ -14,6 +14,12 @@ export class Product {
   @Prop({ required: true })
   category: string
 
+  @Prop({ required: true })
+  stock: number
+
+  @Prop({ required: true })
+  price: number
+
   @Prop({ default: false })
   featured: boolean
 
