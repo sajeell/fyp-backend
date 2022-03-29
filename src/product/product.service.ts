@@ -71,25 +71,33 @@ export class ProductService {
     }
   }
 
-  async findAntiques(): Promise<any> {
-    const data = await this.model.find({
-      category: 'Antique',
-    })
+  async getAntique(
+    collectionDto: CollectionDto,
+  ): Promise<CollectionResponse<ProductDocument>> {
+    const { page, limit, filter, sorter } = collectionDto
+    const collector = new DocumentCollector<ProductDocument>(this.model);
+    return collector.find({
+      page, limit, filter: {
+        category: 'Antique'
+      }, sorter
+    });
+  }
 
-    return data
+  async getHandmade(
+    collectionDto: CollectionDto,
+  ): Promise<CollectionResponse<ProductDocument>> {
+    const { page, limit, filter, sorter } = collectionDto
+    const collector = new DocumentCollector<ProductDocument>(this.model);
+    return collector.find({
+      page, limit, filter: {
+        category: 'Handmade'
+      }, sorter
+    });
   }
 
   async findFeaturedHandmade(): Promise<any> {
     const data = await this.model.find({
       featured: true,
-      category: 'Handmade',
-    })
-
-    return data
-  }
-
-  async findHandmade(): Promise<any> {
-    const data = await this.model.find({
       category: 'Handmade',
     })
 
