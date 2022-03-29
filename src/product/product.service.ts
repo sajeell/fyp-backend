@@ -6,20 +6,20 @@ import { Product, ProductDocument } from './product.schema'
 import {
   CollectionDto,
   DocumentCollector,
-  CollectionResponse
-} from '@forlagshuset/nestjs-mongoose-paginate';
+  CollectionResponse,
+} from '@forlagshuset/nestjs-mongoose-paginate'
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly model: Model<ProductDocument>,
-  ) { }
+  ) {}
 
   async findAll(
     collectionDto: CollectionDto,
   ): Promise<CollectionResponse<ProductDocument>> {
-    const collector = new DocumentCollector<ProductDocument>(this.model);
-    return collector.find(collectionDto);
+    const collector = new DocumentCollector<ProductDocument>(this.model)
+    return collector.find(collectionDto)
   }
 
   async findOneById(id: string): Promise<any> {
@@ -75,24 +75,38 @@ export class ProductService {
     collectionDto: CollectionDto,
   ): Promise<CollectionResponse<ProductDocument>> {
     const { page, limit, filter, sorter } = collectionDto
-    const collector = new DocumentCollector<ProductDocument>(this.model);
+    const collector = new DocumentCollector<ProductDocument>(this.model)
     return collector.find({
-      page, limit, filter: {
-        category: 'Antique'
-      }, sorter
-    });
+      page,
+      limit,
+      filter: {
+        category: 'Antique',
+      },
+      sorter,
+    })
   }
 
   async getHandmade(
     collectionDto: CollectionDto,
   ): Promise<CollectionResponse<ProductDocument>> {
     const { page, limit, filter, sorter } = collectionDto
-    const collector = new DocumentCollector<ProductDocument>(this.model);
+    const collector = new DocumentCollector<ProductDocument>(this.model)
     return collector.find({
-      page, limit, filter: {
-        category: 'Handmade'
-      }, sorter
-    });
+      page,
+      limit,
+      filter: {
+        category: 'Handmade',
+      },
+      sorter,
+    })
+  }
+
+  async getProductsBySellerID(id): Promise<any> {
+    const data = await this.model.find({
+      sellerID: id,
+    })
+
+    return data
   }
 
   async findFeaturedHandmade(): Promise<any> {

@@ -1,4 +1,7 @@
-import { CollectionDto, ValidationPipe } from '@forlagshuset/nestjs-mongoose-paginate'
+import {
+  CollectionDto,
+  ValidationPipe,
+} from '@forlagshuset/nestjs-mongoose-paginate'
 import {
   Body,
   Controller,
@@ -8,7 +11,6 @@ import {
   Post,
   Query,
   UseGuards,
-
 } from '@nestjs/common'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { BaseProductDTO } from './dto/base-product.dto'
@@ -17,7 +19,7 @@ import { Property } from './properties/property'
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly service: ProductService) { }
+  constructor(private readonly service: ProductService) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()
@@ -65,6 +67,12 @@ export class ProductController {
   @Get('/category/handmade')
   async getHandmade(@Query(new ValidationPipe(Property)) query: CollectionDto) {
     return await this.service.getHandmade(query)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/by/seller/:id')
+  async getBySeller(@Param('id') id) {
+    return await this.service.getProductsBySellerID(id)
   }
 
   @UseGuards(JwtAuthGuard)
