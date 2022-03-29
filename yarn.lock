@@ -378,6 +378,19 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@forlagshuset/nestjs-mongoose-paginate@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@forlagshuset/nestjs-mongoose-paginate/-/nestjs-mongoose-paginate-1.2.2.tgz#d09fd311abf0172ab45ae8293c3f38846392dde6"
+  integrity sha512-lPS19GJyemZnZsCARlXY1hYLXkDi6RKB1UjrUtDycFdcqmqt69DlSxFFQL/6UAFhnh24+YjCAgkjpaK5TFD6sw==
+  dependencies:
+    "@nestjs/common" "^8.2.6"
+    "@nestjs/core" "^8.2.6"
+    "@nestjs/swagger" "^5.2.0"
+    ajv "^8.10.0"
+    class-transformer "^0.5.1"
+    class-validator "^0.13.2"
+    rxjs "7.1.0"
+
 "@golevelup/nestjs-common@^1.4.3":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@golevelup/nestjs-common/-/nestjs-common-1.4.3.tgz#477f48dbc711189a7f382aab17f5fbfad55a2766"
@@ -697,6 +710,16 @@
     tslib "2.3.1"
     uuid "8.3.2"
 
+"@nestjs/common@^8.2.6":
+  version "8.4.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-8.4.3.tgz#185d15ac1835256e8c5d4035a8b2d04cd705dfb4"
+  integrity sha512-QIhWykB7IPOwHQB/K9wMwmQKibQ5dhg9dt8ySOoD36uFFwN3RJQelzMFF9Rtu7hrMPk6pSyismEUKQ8BZMUD9w==
+  dependencies:
+    axios "0.26.1"
+    iterare "1.2.1"
+    tslib "2.3.1"
+    uuid "8.3.2"
+
 "@nestjs/config@^1.1.6":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@nestjs/config/-/config-1.2.1.tgz#8344111361ef4bc1b41160f853f387ec050a8526"
@@ -711,6 +734,19 @@
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-8.4.2.tgz#ab6d0d81ef55880da611d2d6372f31519e05aac8"
   integrity sha512-TfDl9InVsMS1COT9839t2kvBGTIaD5X+SHrdH0PzcNqsnbXnk4oL06Mz+3Jl7PQwKG76zl98iiKcMNFg6ojnOw==
+  dependencies:
+    "@nuxtjs/opencollective" "0.3.2"
+    fast-safe-stringify "2.1.1"
+    iterare "1.2.1"
+    object-hash "3.0.0"
+    path-to-regexp "3.2.0"
+    tslib "2.3.1"
+    uuid "8.3.2"
+
+"@nestjs/core@^8.2.6":
+  version "8.4.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-8.4.3.tgz#f0a2722a70b237173a28ee16004a809552b046fd"
+  integrity sha512-1etUwTR5jTCTcNh6MW1tFYrHMCvcdIzJ3Z9O9ETR8EYIsphhzsxxRCa0dfb9peKJEQpl6SkoGOILIFkxfokOPw==
   dependencies:
     "@nuxtjs/opencollective" "0.3.2"
     fast-safe-stringify "2.1.1"
@@ -778,6 +814,15 @@
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-5.2.0.tgz#7fbb66426fab9790f75e906e7d384aacef386a28"
   integrity sha512-wcW2KCe7irwBw0WKsb03uFk4gnjqNcAcJxXGZxi6ljFiDgyLrQtx5MpE95o703tnn4V/hZR8MqMNFOXuup7Pqw==
+  dependencies:
+    "@nestjs/mapped-types" "1.0.1"
+    lodash "4.17.21"
+    path-to-regexp "3.2.0"
+
+"@nestjs/swagger@^5.2.0":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-5.2.1.tgz#0fbd5dbc84aeebc2912009cce1309d4bebe9a52c"
+  integrity sha512-7dNa08WCnTsW/oAk3Ujde+z64JMfNm19DhpXasFR8oJp/9pggYAbYU927HpA+GJsSFJX6adjIRZsCKUqaGWznw==
   dependencies:
     "@nestjs/mapped-types" "1.0.1"
     lodash "4.17.21"
@@ -1534,7 +1579,7 @@ ajv@^6.10.0, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^8.0.0, ajv@^8.8.0:
+ajv@^8.0.0, ajv@^8.10.0, ajv@^8.8.0:
   version "8.11.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
   integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
@@ -3492,6 +3537,13 @@ import-local@^3.0.2:
     pkg-dir "^4.2.0"
     resolve-cwd "^3.0.0"
 
+import@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/import/-/import-0.0.6.tgz#d0eb79df86aa2677c6db61578a5212b3031e6042"
+  integrity sha1-0Ot534aqJnfG22FXilISswMeYEI=
+  dependencies:
+    optimist "0.3.x"
+
 imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
@@ -5058,6 +5110,13 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
+optimist@0.3.x:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.3.7.tgz#c90941ad59e4273328923074d2cf2e7cbc6ec0d9"
+  integrity sha1-yQlBrVnkJzMokjB00s8ufLxuwNk=
+  dependencies:
+    wordwrap "~0.0.2"
+
 optional@0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/optional/-/optional-0.1.4.tgz#cdb1a9bedc737d2025f690ceeb50e049444fd5b3"
@@ -5617,6 +5676,13 @@ rxjs@6.6.7, rxjs@^6.6.0:
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==
   dependencies:
     tslib "^1.9.0"
+
+rxjs@7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.1.0.tgz#94202d27b19305ef7b1a4f330277b2065df7039e"
+  integrity sha512-gCFO5iHIbRPwznl6hAYuwNFld8W4S2shtSJIqG27ReWXo9IWrCyEICxUA+6vJHwSR/OakoenC4QsDxq50tzYmw==
+  dependencies:
+    tslib "~2.1.0"
 
 rxjs@^7.2.0:
   version "7.5.5"
@@ -6337,6 +6403,11 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
+tslib@~2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
+  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
+
 tsutils@^3.21.0:
   version "3.21.0"
   resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.21.0.tgz#b48717d394cea6c1e096983eed58e9d61715b623"
@@ -6650,6 +6721,11 @@ word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
   integrity sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==
+
+wordwrap@~0.0.2:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
+  integrity sha1-o9XabNXAvAAI03I0u68b7WMFkQc=
 
 wrap-ansi@^7.0.0:
   version "7.0.0"

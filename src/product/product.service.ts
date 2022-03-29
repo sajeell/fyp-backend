@@ -3,23 +3,23 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { BaseProductDTO } from './dto/base-product.dto'
 import { Product, ProductDocument } from './product.schema'
+import {
+  CollectionDto,
+  DocumentCollector,
+  CollectionResponse
+} from '@forlagshuset/nestjs-mongoose-paginate';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly model: Model<ProductDocument>,
-  ) {}
+  ) { }
 
   async findAll(
-    documentsToSkip = 0,
-    limitOfDocuments?: number,
-  ): Promise<Product[]> {
-    const query = this.model.find().sort({ _id: 1 }).skip(documentsToSkip)
-
-    if (limitOfDocuments) {
-      query.limit(limitOfDocuments)
-    }
-    return query
+    collectionDto: CollectionDto,
+  ): Promise<CollectionResponse<ProductDocument>> {
+    const collector = new DocumentCollector<ProductDocument>(this.model);
+    return collector.find(collectionDto);
   }
 
   async findOneById(id: string): Promise<any> {
