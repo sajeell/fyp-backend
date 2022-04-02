@@ -1,25 +1,24 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core'
+import { NestFactory } from '@nestjs/core'
 import {
   SwaggerModule,
   DocumentBuilder,
-  SwaggerCustomOptions,
 } from '@nestjs/swagger'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { ValidationPipe } from '@nestjs/common'
-import { AllExceptionsFilter } from './core/exceptions/global-exception.handler'
+
 import { AppModule } from 'src/app.module'
 require('newrelic')
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule)
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ['error', 'warn']
+  })
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       whitelist: true,
     }),
   )
-  const { httpAdapter } = app.get(HttpAdapterHost)
-  // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
   app.enableCors()
 
   const config = new DocumentBuilder()
