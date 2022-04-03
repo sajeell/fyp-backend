@@ -14,14 +14,17 @@ export class Product {
   @Prop({ required: true })
   category: string
 
-  @Prop({ required: true })
+  @Prop()
   stock: number
 
-  @Prop({ required: true })
+  @Prop()
   price: number
 
   @Prop({ default: false })
   featured: boolean
+
+  @Prop()
+  images: Array<string>
 
   @Prop({ required: true })
   sellerID: string

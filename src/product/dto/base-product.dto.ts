@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator'
+import { IsArray, IsBoolean, IsNotEmpty, IsString } from 'class-validator'
 
 export class BaseProductDTO {
   @IsNotEmpty()
@@ -11,6 +11,9 @@ export class BaseProductDTO {
   @IsNotEmpty()
   @IsString()
   category: string
+
+  @IsArray()
+  images: Array<string>
 
   @IsNotEmpty()
   @IsString()

@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import mongoose from 'mongoose'
 import { Document } from 'mongoose'
 
 export type BiddingDocument = Bidding & Document
@@ -6,31 +7,28 @@ export type BiddingDocument = Bidding & Document
 @Schema()
 export class Bidding {
   @Prop()
-  firstName: string
+  startsOn: Date
 
   @Prop()
-  lastName?: string
+  incrementPrice: number
 
   @Prop()
-  stripeAccountId: string
+  minPrice: number
 
   @Prop()
-  stripeCardId: string
+  duration: number
 
   @Prop()
-  stripeCustomerId: string
+  status: string
 
   @Prop()
-  role?: string
-
-  @Prop({ unique: true })
-  username?: string
-
-  @Prop({ unique: true })
-  email?: string
+  wonBy: string
 
   @Prop()
-  password?: string
+  productID: string
+
+  @Prop()
+  participants: Array<any>
 
   @Prop({ required: true })
   createdAt: Date
