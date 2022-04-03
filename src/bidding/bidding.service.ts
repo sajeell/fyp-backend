@@ -75,7 +75,7 @@ export class BiddingService {
 
       if (biddingsData && biddingsData.length > 0) {
         biddingsData.map((bidding) => {
-          const startsOnDate = new Date(todaysDate)
+          const startsOnDate = new Date(bidding.startsOn)
 
           let differenceInTime = todaysDate.getTime() - startsOnDate.getTime()
 
