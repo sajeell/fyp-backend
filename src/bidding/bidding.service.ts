@@ -1,8 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
+import { listeners } from 'process'
 import { NotificationService } from 'src/notification/notification.service'
-import { BiddingParticipants, BiddingParticipantsDocument } from './bidding-participants.schema'
+import { ProductService } from 'src/product/product.service'
+import { isNonNullExpression } from 'typescript'
+import {
+  BiddingParticipants,
+  BiddingParticipantsDocument,
+} from './bidding-participants.schema'
 import { Bidding, BiddingDocument } from './bidding.schema'
 
 @Injectable()
@@ -10,8 +16,10 @@ export class BiddingService {
   private startTime: Date = null
   constructor(
     private readonly notificationService: NotificationService,
+    private readonly productService: ProductService,
     @InjectModel(Bidding.name) private readonly model: Model<BiddingDocument>,
-    @InjectModel(BiddingParticipants.name) private readonly biddingParticipantsModel: Model<BiddingParticipantsDocument>
+    @InjectModel(BiddingParticipants.name)
+    private readonly biddingParticipantsModel: Model<BiddingParticipantsDocument>,
   ) { }
 
   public setStartTime(startTimeArg): void {
@@ -68,24 +76,26 @@ export class BiddingService {
         biddingsData.map((bidding) => {
           const startsOnDate = new Date(todaysDate)
 
-          let differenceInTime = todaysDate.getTime() - startsOnDate.getTime();
+          let differenceInTime = todaysDate.getTime() - startsOnDate.getTime()
 
-          let differenceInDays = differenceInTime / (1000 * 3600 * 24);
+          let differenceInDays = differenceInTime / (1000 * 3600 * 24)
 
           if (differenceInDays === 0) {
             biddingIDs.push(bidding._id)
           }
-
         })
       } else {
-        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
       }
 
       if (biddingIDs && biddingIDs.length > 0) {
         biddingIDs.map(async (id) => {
           const biddingDetail = await this.fetchBiddingDetails(id.valueOf())
 
-          if (biddingDetail.participants && biddingDetail.participants.length > 1) {
+          if (
+            biddingDetail.participants &&
+            biddingDetail.participants.length > 1
+          ) {
             const durationInSeconds = biddingDetail.duration
             let endTime = new Date()
             let difference = endTime.getTime() - this.startTime.getTime()
@@ -101,7 +111,7 @@ export class BiddingService {
             let checkForDeadlock = this.checkForDeadlock(sortedArray)
 
             if (checkForDeadlock === true) {
-              return new HttpException('Deadlock', HttpStatus.NOT_FOUND);
+              return new HttpException('Deadlock', HttpStatus.NOT_FOUND)
             }
 
             while (resultInSeconds < durationInSeconds) {
@@ -146,12 +156,10 @@ export class BiddingService {
           }
         })
       } else {
-        throw new HttpException('Bidding IDs not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('Bidding IDs not found', HttpStatus.NOT_FOUND)
       }
-
-
     } catch (error) {
-      return new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      return new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
@@ -164,7 +172,7 @@ export class BiddingService {
 
       return data
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 
@@ -177,70 +185,85 @@ export class BiddingService {
 
       return data
     } catch (error) {
-      throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
-
+      throw new HttpException(
+        'Internal Server Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      )
     }
   }
 
   public async fetchBiddingParticipant(id: string): Promise<any> {
-    const data = await this.biddingParticipantsModel.find({
-      userID: id
-    }).catch((error) => {
-      console.error(error)
-    })
+    const data = await this.biddingParticipantsModel
+      .find({
+        userID: id,
+      })
+      .catch((error) => {
+        console.error(error)
+      })
 
     return data
   }
 
   public async fetchBiddingDetails(id: string): Promise<any> {
-
     let serverResponse: any = null
 
-    await this.model.find({
-      _id: id
-    }).exec().then(async (biddingDetailsResponse: any) => {
-      const data = await this.biddingParticipantsModel.find({
-        biddingID: biddingDetailsResponse[0]._id
-      }).then((response) => {
-        biddingDetailsResponse[0].participants = response
-        serverResponse = biddingDetailsResponse[0]?.toJSON()
-        return
-      }).catch((error) => {
+    await this.model
+      .find({
+        _id: id,
+      })
+      .exec()
+      .then(async (biddingDetailsResponse: any) => {
+        const data = await this.biddingParticipantsModel
+          .find({
+            biddingID: biddingDetailsResponse[0]._id,
+          })
+          .then((response) => {
+            biddingDetailsResponse[0].participants = response
+            serverResponse = biddingDetailsResponse[0]?.toJSON()
+            return
+          })
+          .catch((error) => {
+            console.error(error)
+            throw new HttpException(
+              error.message,
+              HttpStatus.INTERNAL_SERVER_ERROR,
+            )
+          })
+      })
+      .catch((error) => {
         console.error(error)
         throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
       })
-    }).catch((error) => {
-      console.error(error)
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
-    })
 
     return serverResponse
-
   }
 
-  public async checkUserHadBidOrNot(userID: string, productID: string): Promise<boolean> {
+  public async checkUserHadBidOrNot(
+    userID: string,
+    productID: string,
+  ): Promise<boolean> {
     const biddingData = await this.model.find({
-      productID: productID
+      productID: productID,
     })
 
     const validateUserBidding = await this.biddingParticipantsModel.find({
       biddingID: biddingData[0]._id,
-      userID: userID
+      userID: userID,
     })
 
     if (validateUserBidding) {
       return true
-    }
-    else {
+    } else {
       return false
     }
   }
 
   public async fetchBuyerCartDetails(userID: string): Promise<any> {
     const biddingIDs: Array<string> = []
+    let biddings: Array<Object> = []
 
     const participatedBiddings = await this.biddingParticipantsModel.find({
-      userID: userID
+      userID: userID,
     })
 
     if (participatedBiddings && participatedBiddings.length > 0) {
@@ -248,10 +271,34 @@ export class BiddingService {
         biddingIDs.push(bidding.biddingID)
       })
 
-    } else {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      const myPromise = new Promise(async (resolve, reject) => {
+        const biddingsTemp = biddingIDs.map(async (id) => {
+          const bidding = await this.model.findById(id)
+          const product = await this.productService.findOneById(bidding.productID)
 
+          const combinedResponse = {
+            bidding: bidding,
+            product: product,
+          }
+
+          return combinedResponse
+        })
+
+        // biddings.length > 0 ? resolve('resolved') : reject('rejected')
+
+        biddings = (await Promise.all(biddingsTemp))
+        resolve(biddings)
+      });
+
+      myPromise.then((value: any) => {
+        throw new HttpException(value, 500)
+      })
+        .catch((error) => {
+          console.error(error)
+        })
+
+    } else {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
     }
   }
-
 }

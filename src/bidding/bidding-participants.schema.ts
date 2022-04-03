@@ -24,4 +24,5 @@ export class BiddingParticipants {
   deletedAt?: Date
 }
 
-export const BiddingParticipantsSchema = SchemaFactory.createForClass(BiddingParticipants)
+export const BiddingParticipantsSchema =
+  SchemaFactory.createForClass(BiddingParticipants)

@@ -1,8 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import {
-  SwaggerModule,
-  DocumentBuilder,
-} from '@nestjs/swagger'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { ValidationPipe } from '@nestjs/common'
 
@@ -11,7 +8,7 @@ require('newrelic')
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger: ['error', 'warn']
+    logger: ['error', 'warn'],
   })
   app.useGlobalPipes(
     new ValidationPipe({
