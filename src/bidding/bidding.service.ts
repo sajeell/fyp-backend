@@ -68,9 +68,7 @@ export class BiddingService {
   public async biddingStart(): Promise<any> {
     try {
       const biddingIDs: Array<string> = []
-
       const biddingsData = await this.model.find()
-
       const todaysDate = new Date()
 
       if (biddingsData && biddingsData.length > 0) {
@@ -78,15 +76,14 @@ export class BiddingService {
           const startsOnDate = new Date(bidding.startsOn)
 
           let differenceInTime = todaysDate.getTime() - startsOnDate.getTime()
-
-          let differenceInDays = differenceInTime / (1000 * 3600 * 24)
+          let differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24))
 
           if (differenceInDays === 0) {
             biddingIDs.push(bidding._id)
           }
         })
       } else {
-        throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
+        return
       }
 
       if (biddingIDs && biddingIDs.length > 0) {
@@ -157,7 +154,7 @@ export class BiddingService {
           }
         })
       } else {
-        throw new HttpException('Bidding IDs not found', HttpStatus.NOT_FOUND)
+        return
       }
     } catch (error) {
       return new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
