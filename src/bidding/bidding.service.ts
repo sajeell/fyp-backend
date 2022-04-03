@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
+import { Response } from 'express'
 import { Model } from 'mongoose'
 import { listeners } from 'process'
 import { NotificationService } from 'src/notification/notification.service'
@@ -258,7 +259,7 @@ export class BiddingService {
     }
   }
 
-  public async fetchBuyerCartDetails(userID: string): Promise<any> {
+  public async fetchBuyerCartDetails(userID: string, res: Response): Promise<any> {
     const biddingIDs: Array<string> = []
     let biddings: Array<Object> = []
 
@@ -284,21 +285,19 @@ export class BiddingService {
           return combinedResponse
         })
 
-        // biddings.length > 0 ? resolve('resolved') : reject('rejected')
-
         biddings = (await Promise.all(biddingsTemp))
         resolve(biddings)
       });
 
-      myPromise.then((value: any) => {
-        throw new HttpException(value, 500)
+      myPromise.then((data: any) => {
+        res.status(200).json(data)
       })
         .catch((error) => {
           console.error(error)
         })
 
     } else {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND)
+      res.status(404).json({ error: "Not Found" })
     }
   }
 }

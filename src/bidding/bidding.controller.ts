@@ -1,5 +1,6 @@
-import { Controller, Post, Body, Param, Get } from '@nestjs/common'
+import { Controller, Post, Body, Param, Get, Res } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { Response } from 'express'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { BiddingService } from './bidding.service'
 
@@ -7,7 +8,7 @@ import { BiddingService } from './bidding.service'
 @ApiTags('Bidding')
 @Controller('bidding')
 export class BiddingController {
-  constructor(private readonly service: BiddingService) {}
+  constructor(private readonly service: BiddingService) { }
 
   @Get('/start')
   async biddingStart() {
@@ -36,8 +37,8 @@ export class BiddingController {
 
   // @UseGuards(JwtAuthGuard)
   @Get('/participant/cart/:id')
-  async fetchParticipantCartDetails(@Param('id') userID: string) {
-    return await this.service.fetchBuyerCartDetails(userID)
+  async fetchParticipantCartDetails(@Param('id') userID: string, @Res() res: Response) {
+    return await this.service.fetchBuyerCartDetails(userID, res)
   }
 
   // @UseGuards(JwtAuthGuard)
