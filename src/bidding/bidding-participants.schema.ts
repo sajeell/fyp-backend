@@ -12,6 +12,9 @@ export class BiddingParticipants {
   userID: string
 
   @Prop()
+  email: string
+
+  @Prop()
   maxPrice: number
 
   @Prop({ required: true })

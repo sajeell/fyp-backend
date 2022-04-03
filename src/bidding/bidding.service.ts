@@ -1,10 +1,18 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import { Model } from 'mongoose'
 import { NotificationService } from 'src/notification/notification.service'
+import { BiddingParticipants, BiddingParticipantsDocument } from './bidding-participants.schema'
+import { Bidding, BiddingDocument } from './bidding.schema'
 
 @Injectable()
 export class BiddingService {
   private startTime: Date = null
-  constructor(private readonly notificationService: NotificationService) { }
+  constructor(
+    private readonly notificationService: NotificationService,
+    @InjectModel(Bidding.name) private readonly model: Model<BiddingDocument>,
+    @InjectModel(BiddingParticipants.name) private readonly biddingParticipantsModel: Model<BiddingParticipantsDocument>
+  ) { }
 
   public setStartTime(startTimeArg): void {
     this.startTime = startTimeArg
@@ -13,21 +21,19 @@ export class BiddingService {
   private compare(
     a: {
       id: Number
-      maxBidPrice: Number
-      currentBid: null
+      maxPrice: Number
       email: string
     },
     b: {
       id: Number
-      maxBidPrice: Number
-      currentBid: null
+      maxPrice: Number
       email: string
     },
   ) {
-    if (a.maxBidPrice < b.maxBidPrice) {
+    if (a.maxPrice < b.maxPrice) {
       return -1
     }
-    if (a.maxBidPrice > b.maxBidPrice) {
+    if (a.maxPrice > b.maxPrice) {
       return 1
     }
     return 0
@@ -38,7 +44,7 @@ export class BiddingService {
     let count = 0
 
     array.forEach((element) => {
-      if (element.maxBidPrice === highestBid.maxBidPrice) {
+      if (element.maxPrice === highestBid.maxPrice) {
         count++
       }
     })
@@ -52,94 +58,199 @@ export class BiddingService {
 
   public async biddingStart(): Promise<any> {
     try {
-      const durationMinutes = 5
-      let endTime = new Date()
-      let difference = endTime.getTime() - this.startTime.getTime()
-      let resultInMinutes = Math.round(difference / 1000)
+      const biddingIDs: Array<string> = []
 
-      let participants: Array<{
-        id: Number
-        maxBidPrice: Number
-        currentBid: Number
-        email: string
-      }> = [
-          {
-            id: 4,
-            maxBidPrice: 200,
-            currentBid: null,
-            email: 'sajeel.ahmed@protonmail.com',
-          },
-          {
-            id: 3,
-            maxBidPrice: 210,
-            currentBid: null,
-            email: 'sajeel.ahmed@protonmail.com',
-          },
-          {
-            id: 22,
-            maxBidPrice: 207,
-            currentBid: null,
-            email: 'sajeel.ahmed@protonmail.com',
-          },
-          {
-            id: 1,
-            maxBidPrice: 220,
-            currentBid: null,
-            email: 'sajeel.ahmed@protonmail.com',
-          },
-        ]
+      const biddingsData = await this.model.find()
 
-      const minPrice = 198
-      const increment = 4
-      let currentPrice = 0
+      const todaysDate = new Date()
 
-      let sortedArray = participants.sort(this.compare)
-      let checkForDeadlock = this.checkForDeadlock(sortedArray)
+      if (biddingsData && biddingsData.length > 0) {
+        biddingsData.map((bidding) => {
+          const startsOnDate = new Date(todaysDate)
 
-      if (checkForDeadlock === true) {
-        return false
-      }
+          let differenceInTime = todaysDate.getTime() - startsOnDate.getTime();
 
-      while (resultInMinutes < durationMinutes) {
-        if (currentPrice === 0) {
-          currentPrice = minPrice
-        } else {
-          currentPrice = currentPrice + increment
-        }
+          let differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
-        participants = participants.map((element) => {
-          const incrementValue = currentPrice + increment
-          if (incrementValue <= element.maxBidPrice) {
-            element.currentBid = incrementValue
+          if (differenceInDays === 0) {
+            biddingIDs.push(bidding._id)
           }
-          return element
+
         })
-
-        sortedArray = participants.sort(this.compare)
-
-        checkForDeadlock = this.checkForDeadlock(sortedArray)
-        if (checkForDeadlock === true) {
-          return false
-        }
-
-        endTime = new Date()
-        difference = endTime.getTime() - this.startTime.getTime()
-        resultInMinutes = Math.round(difference / 1000)
+      } else {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
       }
 
-      const highestBid = sortedArray[sortedArray.length - 1]
+      if (biddingIDs && biddingIDs.length > 0) {
+        biddingIDs.map(async (id) => {
+          const biddingDetail = await this.fetchBiddingDetails(id.valueOf())
 
-      this.notificationService.notifyUser({
-        isFromAdmin: true,
-        senderId: 'admin',
-        receiverId: highestBid.email,
-        message: 'You have woin',
+          if (biddingDetail.participants && biddingDetail.participants.length > 1) {
+            const durationInSeconds = biddingDetail.duration
+            let endTime = new Date()
+            let difference = endTime.getTime() - this.startTime.getTime()
+            let resultInSeconds = Math.round(difference / 1000)
+
+            let participants = biddingDetail.participants
+
+            const minPrice = biddingDetail.minPrice
+            const incrementPrice = biddingDetail.incrementPrice
+            let currentPrice = 0
+
+            let sortedArray = participants.sort(this.compare)
+            let checkForDeadlock = this.checkForDeadlock(sortedArray)
+
+            if (checkForDeadlock === true) {
+              return new HttpException('Deadlock', HttpStatus.NOT_FOUND);
+            }
+
+            while (resultInSeconds < durationInSeconds) {
+              if (currentPrice === 0) {
+                currentPrice = minPrice
+              } else {
+                currentPrice = currentPrice + incrementPrice
+              }
+
+              participants = participants.map((element) => {
+                const incrementValue = currentPrice + incrementPrice
+                if (incrementValue <= element.maxBidPrice) {
+                  element.currentBid = incrementValue
+                }
+                return element
+              })
+
+              sortedArray = participants.sort(this.compare)
+
+              checkForDeadlock = this.checkForDeadlock(sortedArray)
+              if (checkForDeadlock === true) {
+                return false
+              }
+
+              endTime = new Date()
+              difference = endTime.getTime() - this.startTime.getTime()
+              resultInSeconds = Math.round(difference / 1000)
+            }
+
+            const highestBid = sortedArray[sortedArray.length - 1]
+
+            this.notificationService.notifyUser({
+              isFromAdmin: true,
+              senderId: 'admin',
+              receiverId: highestBid.email,
+              message: `You have won the bidding #${id}`,
+            })
+
+            return sortedArray[sortedArray.length - 1]
+          } else {
+            return null
+          }
+        })
+      } else {
+        throw new HttpException('Bidding IDs not found', HttpStatus.NOT_FOUND);
+      }
+
+
+    } catch (error) {
+      return new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async addBiddingDetails(dataArg): Promise<any> {
+    try {
+      const data = await new this.model({
+        ...dataArg,
+        createdAt: new Date(),
       })
 
-      return sortedArray[sortedArray.length - 1]
+      return data
     } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  public async addBiddingParticipant(dataArg): Promise<any> {
+    try {
+      const data: any = await new this.biddingParticipantsModel({
+        ...dataArg,
+        createdAt: new Date(),
+      }).save()
+
+      return data
+    } catch (error) {
+      throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+  }
+
+  public async fetchBiddingParticipant(id: string): Promise<any> {
+    const data = await this.biddingParticipantsModel.find({
+      userID: id
+    }).catch((error) => {
       console.error(error)
+    })
+
+    return data
+  }
+
+  public async fetchBiddingDetails(id: string): Promise<any> {
+
+    let serverResponse: any = null
+
+    await this.model.find({
+      _id: id
+    }).exec().then(async (biddingDetailsResponse: any) => {
+      const data = await this.biddingParticipantsModel.find({
+        biddingID: biddingDetailsResponse[0]._id
+      }).then((response) => {
+        biddingDetailsResponse[0].participants = response
+        serverResponse = biddingDetailsResponse[0]?.toJSON()
+        return
+      }).catch((error) => {
+        console.error(error)
+        throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+      })
+    }).catch((error) => {
+      console.error(error)
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+    })
+
+    return serverResponse
+
+  }
+
+  public async checkUserHadBidOrNot(userID: string, productID: string): Promise<boolean> {
+    const biddingData = await this.model.find({
+      productID: productID
+    })
+
+    const validateUserBidding = await this.biddingParticipantsModel.find({
+      biddingID: biddingData[0]._id,
+      userID: userID
+    })
+
+    if (validateUserBidding) {
+      return true
+    }
+    else {
       return false
+    }
+  }
+
+  public async fetchBuyerCartDetails(userID: string): Promise<any> {
+    const biddingIDs: Array<string> = []
+
+    const participatedBiddings = await this.biddingParticipantsModel.find({
+      userID: userID
+    })
+
+    if (participatedBiddings && participatedBiddings.length > 0) {
+      participatedBiddings.map((bidding) => {
+        biddingIDs.push(bidding.biddingID)
+      })
+
+    } else {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+
     }
   }
 
