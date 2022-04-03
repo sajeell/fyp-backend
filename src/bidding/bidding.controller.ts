@@ -48,9 +48,9 @@ export class BiddingController {
   }
 
   // @UseGuards(JwtAuthGuard)
-  @Get('/verify/user/bidding')
-  async verifyUserBidding(@Body() dto: any) {
+  @Get('/verify')
+  async verifyUserBidding(@Body() dto: any, @Res() res: Response) {
     const { userID, productID } = dto
-    return await this.service.checkUserHadBidOrNot(userID, productID)
+    return await this.service.checkUserHadBidOrNot(userID, productID, res)
   }
 }

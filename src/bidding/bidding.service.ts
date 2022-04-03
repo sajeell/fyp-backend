@@ -242,20 +242,26 @@ export class BiddingService {
   public async checkUserHadBidOrNot(
     userID: string,
     productID: string,
-  ): Promise<boolean> {
-    const biddingData = await this.model.find({
-      productID: productID,
-    })
+    res: Response
+  ): Promise<any> {
+    try {
+      const biddingData = await this.model.find({
+        productID: productID,
+      })
 
-    const validateUserBidding = await this.biddingParticipantsModel.find({
-      biddingID: biddingData[0]._id,
-      userID: userID,
-    })
+      const validateUserBidding = await this.biddingParticipantsModel.find({
+        biddingID: biddingData[0]._id,
+        userID: userID,
+      })
 
-    if (validateUserBidding) {
-      return true
-    } else {
-      return false
+      if (validateUserBidding && validateUserBidding.length > 0) {
+        res.status(200).json({ verified: true })
+      } else {
+        res.status(404).json({ verified: false })
+      }
+
+    } catch (error) {
+      res.status(404).json({ verified: false })
     }
   }
 
