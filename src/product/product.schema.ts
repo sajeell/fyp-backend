@@ -17,9 +17,6 @@ export class Product {
   @Prop()
   stock: number
 
-  @Prop()
-  price: number
-
   @Prop({ default: false })
   featured: boolean
 

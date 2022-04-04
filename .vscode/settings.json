@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/09d46f99-5d18-484a-947a-9ff27d313afe/resourceGroups/barganttic_group/providers/Microsoft.Web/sites/barganttic",
+    "appService.deploySubpath": "."
+}
