@@ -21,7 +21,7 @@ export class BiddingService {
     @InjectModel(Bidding.name) private readonly model: Model<BiddingDocument>,
     @InjectModel(BiddingParticipants.name)
     private readonly biddingParticipantsModel: Model<BiddingParticipantsDocument>,
-  ) {}
+  ) { }
 
   public setStartTime(startTimeArg): void {
     this.startTime = startTimeArg
@@ -93,8 +93,8 @@ export class BiddingService {
           const biddingDetail = await this.fetchBiddingDetails(id.valueOf())
 
           if (
-            biddingDetail.participants &&
-            biddingDetail.participants.length > 1
+            biddingDetail &&
+            biddingDetail.participants.length > 0
           ) {
             const durationInSeconds = biddingDetail.bidding.duration
             let endTime = new Date()
@@ -239,23 +239,23 @@ export class BiddingService {
     productID: string,
     res: Response,
   ): Promise<any> {
-    try {
-      const biddingData = await this.model.find({
-        productID: productID,
-      })
 
+    const biddingData = await this.model.find({
+      productID: productID,
+    })
+
+    if (biddingData.length > 0) {
       const validateUserBidding = await this.biddingParticipantsModel.find({
         biddingID: biddingData[0]._id,
         userID: userID,
       })
-
       if (validateUserBidding && validateUserBidding.length > 0) {
         res.status(200).json({ verified: true })
       } else {
-        res.status(404).json({ verified: false })
+        res.status(200).json({ verified: false })
       }
-    } catch (error) {
-      res.status(404).json({ verified: false })
+    } else {
+      res.status(200).json({ verified: false })
     }
   }
 
@@ -324,5 +324,13 @@ export class BiddingService {
     } catch (error) {
       res.status(500).json({ error: error.message })
     }
+  }
+
+  public async fetchBiddingByProductID(productID: string): Promise<any> {
+    const data = await this.model.findOne({
+      productID: productID
+    })
+
+    return data
   }
 }
