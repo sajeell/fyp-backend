@@ -32,6 +32,9 @@ export class User {
   @Prop()
   password?: string
 
+  @Prop({ type: Number })
+  revenue: number
+
   @Prop({ required: true })
   createdAt: Date
 
