@@ -156,7 +156,7 @@ export class BiddingService {
               },
               {
                 status: 'won',
-                wonBy: highestBid._id,
+                wonBy: highestBid.userID,
                 winningPrice: highestBid.currentBid,
               },
             )
