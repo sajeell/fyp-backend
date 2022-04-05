@@ -17,11 +17,11 @@ export class BiddingParticipants {
   @Prop()
   email: string
 
-  @Prop()
-  maxPrice: number
+  @Prop({ type: Number })
+  maxPrice: Number
 
-  @Prop()
-  currentBid: number
+  @Prop({ type: Number })
+  currentBid: Number
 
   @Prop({ required: true })
   createdAt: Date

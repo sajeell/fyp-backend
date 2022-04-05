@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import mongoose from 'mongoose'
+
 import { Document } from 'mongoose'
 
 export type BiddingDocument = Bidding & Document
@@ -9,11 +9,11 @@ export class Bidding {
   @Prop()
   startsOn: Date
 
-  @Prop()
-  incrementPrice: number
+  @Prop({ type: Number })
+  incrementPrice: Number
 
-  @Prop()
-  minPrice: number
+  @Prop({ type: Number })
+  minPrice: Number
 
   @Prop()
   duration: number
@@ -24,8 +24,8 @@ export class Bidding {
   @Prop()
   wonBy: string
 
-  @Prop()
-  winningPrice: number
+  @Prop({ type: Number })
+  winningPrice: Number
 
   @Prop()
   productID: string
