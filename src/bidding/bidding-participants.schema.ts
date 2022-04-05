@@ -12,10 +12,16 @@ export class BiddingParticipants {
   userID: string
 
   @Prop()
+  intermediaryID: string
+
+  @Prop()
   email: string
 
   @Prop()
   maxPrice: number
+
+  @Prop()
+  currentBid: number
 
   @Prop({ required: true })
   createdAt: Date

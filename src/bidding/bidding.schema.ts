@@ -25,6 +25,9 @@ export class Bidding {
   wonBy: string
 
   @Prop()
+  winningPrice: number
+
+  @Prop()
   productID: string
 
   @Prop()

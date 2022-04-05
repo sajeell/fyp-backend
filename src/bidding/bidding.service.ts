@@ -21,7 +21,7 @@ export class BiddingService {
     @InjectModel(Bidding.name) private readonly model: Model<BiddingDocument>,
     @InjectModel(BiddingParticipants.name)
     private readonly biddingParticipantsModel: Model<BiddingParticipantsDocument>,
-  ) { }
+  ) {}
 
   public setStartTime(startTimeArg): void {
     this.startTime = startTimeArg
@@ -76,7 +76,9 @@ export class BiddingService {
           const startsOnDate = new Date(bidding.startsOn)
 
           let differenceInTime = todaysDate.getTime() - startsOnDate.getTime()
-          let differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24))
+          let differenceInDays = Math.round(
+            differenceInTime / (1000 * 3600 * 24),
+          )
 
           if (differenceInDays === 0) {
             biddingIDs.push(bidding._id)
@@ -94,15 +96,15 @@ export class BiddingService {
             biddingDetail.participants &&
             biddingDetail.participants.length > 1
           ) {
-            const durationInSeconds = biddingDetail.duration
+            const durationInSeconds = biddingDetail.bidding.duration
             let endTime = new Date()
             let difference = endTime.getTime() - this.startTime.getTime()
             let resultInSeconds = Math.round(difference / 1000)
 
             let participants = biddingDetail.participants
 
-            const minPrice = biddingDetail.minPrice
-            const incrementPrice = biddingDetail.incrementPrice
+            const minPrice = biddingDetail.bidding.minPrice
+            const incrementPrice = biddingDetail.bidding.incrementPrice
             let currentPrice = 0
 
             let sortedArray = participants.sort(this.compare)
@@ -121,7 +123,7 @@ export class BiddingService {
 
               participants = participants.map((element) => {
                 const incrementValue = currentPrice + incrementPrice
-                if (incrementValue <= element.maxBidPrice) {
+                if (incrementValue <= element.maxPrice) {
                   element.currentBid = incrementValue
                 }
                 return element
@@ -145,10 +147,21 @@ export class BiddingService {
               isFromAdmin: true,
               senderId: 'admin',
               receiverId: highestBid.email,
-              message: `You have won the bidding #${id}`,
+              message: `You have won the bidding #${id}. Amount payable is ${highestBid.currentBid}`,
             })
 
-            return sortedArray[sortedArray.length - 1]
+            const updateBidding = await this.model.findOneAndUpdate(
+              {
+                _id: id.valueOf(),
+              },
+              {
+                status: 'won',
+                wonBy: highestBid._id,
+                winningPrice: highestBid.currentBid,
+              },
+            )
+
+            return updateBidding
           } else {
             return null
           }
@@ -166,7 +179,7 @@ export class BiddingService {
       const data = await new this.model({
         ...dataArg,
         createdAt: new Date(),
-      })
+      }).save()
 
       return data
     } catch (error) {
@@ -203,43 +216,28 @@ export class BiddingService {
   }
 
   public async fetchBiddingDetails(id: string): Promise<any> {
-    let serverResponse: any = null
+    const biddingDetails = await this.model.findOne({
+      _id: id,
+    })
 
-    await this.model
-      .find({
-        _id: id,
-      })
-      .exec()
-      .then(async (biddingDetailsResponse: any) => {
-        const data = await this.biddingParticipantsModel
-          .find({
-            biddingID: biddingDetailsResponse[0]._id,
-          })
-          .then((response) => {
-            biddingDetailsResponse[0].participants = response
-            serverResponse = biddingDetailsResponse[0]?.toJSON()
-            return
-          })
-          .catch((error) => {
-            console.error(error)
-            throw new HttpException(
-              error.message,
-              HttpStatus.INTERNAL_SERVER_ERROR,
-            )
-          })
-      })
-      .catch((error) => {
-        console.error(error)
-        throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+    if (biddingDetails && biddingDetails._id) {
+      const data = await this.biddingParticipantsModel.find({
+        biddingID: biddingDetails._id,
       })
 
-    return serverResponse
+      return {
+        bidding: biddingDetails,
+        participants: data,
+      }
+    } else {
+      return null
+    }
   }
 
   public async checkUserHadBidOrNot(
     userID: string,
     productID: string,
-    res: Response
+    res: Response,
   ): Promise<any> {
     try {
       const biddingData = await this.model.find({
@@ -256,13 +254,15 @@ export class BiddingService {
       } else {
         res.status(404).json({ verified: false })
       }
-
     } catch (error) {
       res.status(404).json({ verified: false })
     }
   }
 
-  public async fetchBuyerCartDetails(userID: string, res: Response): Promise<any> {
+  public async fetchBuyerCartDetails(
+    userID: string,
+    res: Response,
+  ): Promise<any> {
     const biddingIDs: Array<string> = []
     let biddings: Array<Object> = []
 
@@ -278,7 +278,9 @@ export class BiddingService {
       const myPromise = new Promise(async (resolve, reject) => {
         const biddingsTemp = biddingIDs.map(async (id) => {
           const bidding = await this.model.findById(id)
-          const product = await this.productService.findOneById(bidding.productID)
+          const product = await this.productService.findOneById(
+            bidding.productID,
+          )
 
           const combinedResponse = {
             bidding: bidding,
@@ -288,19 +290,19 @@ export class BiddingService {
           return combinedResponse
         })
 
-        biddings = (await Promise.all(biddingsTemp))
+        biddings = await Promise.all(biddingsTemp)
         resolve(biddings)
-      });
-
-      myPromise.then((data: any) => {
-        res.status(200).json(data)
       })
+
+      myPromise
+        .then((data: any) => {
+          res.status(200).json(data)
+        })
         .catch((error) => {
           console.error(error)
         })
-
     } else {
-      res.status(404).json({ error: "Not Found" })
+      res.status(404).json({ error: 'Not Found' })
     }
   }
 }

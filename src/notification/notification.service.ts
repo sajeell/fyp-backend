@@ -29,7 +29,7 @@ export class NotificationService {
         to: arg.receiverId, // list of receivers
         subject: 'Email', // Subject line
         text: arg.message, //, // plaintext body
-        html: `<b>You have won ✔</b>`, // You can choose to send an HTML body instead
+        html: `<b>${arg.message}</b>`, // You can choose to send an HTML body instead
       }
 
       transporter.sendMail(mailOptions, function (error, info) {
