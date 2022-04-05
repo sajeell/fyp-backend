@@ -21,7 +21,7 @@ export class BiddingService {
     @InjectModel(Bidding.name) private readonly model: Model<BiddingDocument>,
     @InjectModel(BiddingParticipants.name)
     private readonly biddingParticipantsModel: Model<BiddingParticipantsDocument>,
-  ) { }
+  ) {}
 
   public setStartTime(startTimeArg): void {
     this.startTime = startTimeArg
@@ -268,7 +268,7 @@ export class BiddingService {
 
     const participatedBiddings = await this.model.find({
       wonBy: userID,
-      status: 'won'
+      status: 'won',
     })
 
     if (participatedBiddings && participatedBiddings.length > 0) {
@@ -303,22 +303,24 @@ export class BiddingService {
           console.error(error)
         })
     } else {
-      return "error"
+      return 'error'
     }
   }
 
-  public async fetchViewBiddingStatusCart(userID: string, res: Response): Promise<any> {
+  public async fetchViewBiddingStatusCart(
+    userID: string,
+    res: Response,
+  ): Promise<any> {
     try {
       const data = await this.model.find({
-        wonBy: userID
+        wonBy: userID,
       })
 
       if (data) {
         return data
       } else {
-        res.status(404).json({ error: "Not Found" })
+        res.status(404).json({ error: 'Not Found' })
       }
-
     } catch (error) {
       res.status(500).json({ error: error.message })
     }

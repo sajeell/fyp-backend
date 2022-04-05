@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { PostReviewProductDTO } from './dto/post-review-product.dto'
 import { ReviewService } from './review.service'
 
+@ApiTags('Review')
 @Controller('review')
 export class ReviewController {
   constructor(private readonly service: ReviewService) {}

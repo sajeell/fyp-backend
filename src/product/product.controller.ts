@@ -12,11 +12,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { BaseProductDTO } from './dto/base-product.dto'
 import { ProductService } from './product.service'
 import { Property } from './properties/property'
 
+@ApiTags('Product')
 @Controller('product')
 export class ProductController {
   constructor(private readonly service: ProductService) {}

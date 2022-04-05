@@ -11,7 +11,9 @@ import { AuthService } from './auth.service'
 import * as bcrypt from 'bcrypt'
 import { UserService } from 'src/user/user.service'
 import { RegisterUserDTO } from 'src/user/dto/register-user.dto'
+import { ApiTags } from '@nestjs/swagger'
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
