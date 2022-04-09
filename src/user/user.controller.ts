@@ -33,6 +33,12 @@ export class UserController {
     return await this.service.update(id, updateUserDto)
   }
 
+  @Put('address/:id')
+  async addAddress(@Param('id') id: string, @Body() body: any) {
+    const { address } = body
+    return await this.service.storeAddress(id, address)
+  }
+
   @Delete(':id')
   async delete(@Param('id') id: string) {
     return await this.service.delete(id)

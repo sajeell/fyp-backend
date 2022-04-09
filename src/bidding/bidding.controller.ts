@@ -8,7 +8,7 @@ import { BiddingService } from './bidding.service'
 @ApiTags('Bidding')
 @Controller('bidding')
 export class BiddingController {
-  constructor(private readonly service: BiddingService) { }
+  constructor(private readonly service: BiddingService) {}
 
   @Get('/start')
   async biddingStart() {

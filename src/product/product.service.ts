@@ -118,11 +118,6 @@ export class ProductService {
     return data
   }
 
-  /**
-   *
-   * @param id : string
-   * @returns true if product is successfully deleted
-   */
   async deleteProduct(id: string): Promise<boolean> {
     const data = await this.model.deleteOne({
       where: {
@@ -131,5 +126,20 @@ export class ProductService {
     })
 
     return data.acknowledged
+  }
+
+  async decrementProductStock(productID: string): Promise<any> {
+    const response = await this.model.findOneAndUpdate(
+      {
+        _id: productID,
+      },
+      {
+        $inc: {
+          stock: -1,
+        },
+      },
+    )
+
+    return response
   }
 }

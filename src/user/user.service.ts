@@ -86,4 +86,17 @@ export class UserService {
   async validateEmail(email: string) {
     return isEmail(email)
   }
+
+  async storeAddress(id: string, address: string): Promise<any> {
+    const response = await this.model.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        address: address,
+      },
+    )
+
+    return response
+  }
 }

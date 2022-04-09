@@ -21,7 +21,7 @@ export class BiddingService {
     @InjectModel(Bidding.name) private readonly model: Model<BiddingDocument>,
     @InjectModel(BiddingParticipants.name)
     private readonly biddingParticipantsModel: Model<BiddingParticipantsDocument>,
-  ) { }
+  ) {}
 
   public setStartTime(startTimeArg): void {
     this.startTime = startTimeArg
@@ -92,10 +92,7 @@ export class BiddingService {
         biddingIDs.map(async (id) => {
           const biddingDetail = await this.fetchBiddingDetails(id.valueOf())
 
-          if (
-            biddingDetail &&
-            biddingDetail.participants.length > 0
-          ) {
+          if (biddingDetail && biddingDetail.participants.length > 0) {
             const durationInSeconds = biddingDetail.bidding.duration
             let endTime = new Date()
             let difference = endTime.getTime() - this.startTime.getTime()
@@ -239,7 +236,6 @@ export class BiddingService {
     productID: string,
     res: Response,
   ): Promise<any> {
-
     const biddingData = await this.model.find({
       productID: productID,
     })
@@ -328,7 +324,7 @@ export class BiddingService {
 
   public async fetchBiddingByProductID(productID: string): Promise<any> {
     const data = await this.model.findOne({
-      productID: productID
+      productID: productID,
     })
 
     return data

@@ -23,6 +23,9 @@ export class User {
   @Prop()
   role?: string
 
+  @Prop()
+  address?: string
+
   @Prop({ unique: true })
   username?: string
 
@@ -33,7 +36,7 @@ export class User {
   password?: string
 
   @Prop({ type: Number })
-  revenue: number
+  funds: number
 
   @Prop({ required: true })
   createdAt: Date

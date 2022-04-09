@@ -10,6 +10,8 @@ import { BiddingModule } from './bidding/bidding.module'
 import { ReviewModule } from './review/review.module'
 import { PaymentModule } from './payment/payment.module'
 import { IntermediaryModule } from './intermediary/intermediary.module'
+import { OrderService } from './order/order.service'
+import { OrderModule } from './order/order.module'
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { IntermediaryModule } from './intermediary/intermediary.module'
     ReviewModule,
     PaymentModule,
     IntermediaryModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

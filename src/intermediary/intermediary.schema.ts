@@ -12,7 +12,7 @@ export class Intermediary {
   commission: Number
 
   @Prop({ type: Number })
-  revenue: Number
+  funds: Number
 
   @Prop({ required: true })
   createdAt: Date
