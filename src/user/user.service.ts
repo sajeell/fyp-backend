@@ -112,7 +112,9 @@ export class UserService {
     const response = await this.model.findOneAndUpdate({
       _id: userID
     }, {
-      funds: funds
+      $inc: {
+        funds: funds,
+      },
     })
 
     return response
