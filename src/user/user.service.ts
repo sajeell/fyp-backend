@@ -10,7 +10,7 @@ import { User, UserDocument } from './user.schema'
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly model: Model<UserDocument>,
-  ) {}
+  ) { }
 
   async findAll(): Promise<User[]> {
     return await this.model.find().exec()
@@ -96,6 +96,14 @@ export class UserService {
         address: address,
       },
     )
+
+    return response
+  }
+
+  async fetchIntermediaries(): Promise<any> {
+    const response = await this.model.find({
+      role: "Intermediary"
+    })
 
     return response
   }

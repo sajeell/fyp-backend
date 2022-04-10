@@ -8,11 +8,11 @@ export class Intermediary {
   @Prop()
   productID: string
 
-  @Prop({ type: Number })
-  commission: Number
+  @Prop()
+  agentID: string
 
   @Prop({ type: Number })
-  funds: Number
+  commission: Number
 
   @Prop({ required: true })
   createdAt: Date
