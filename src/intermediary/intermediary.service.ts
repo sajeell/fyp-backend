@@ -15,6 +15,14 @@ export class IntermediaryService {
         return await this.userService.fetchIntermediaries()
     }
 
+    public async fetchIntermediariesViaAgentID(agentID: string): Promise<any> {
+        const response = await this.model.find({
+            agentID: agentID
+        })
+
+        return response
+    }
+
     public async postIntermediaryData(data: any): Promise<any> {
         const response = await new this.model({
             ...data,

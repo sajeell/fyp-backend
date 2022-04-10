@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { IntermediaryService } from './intermediary.service';
@@ -18,5 +18,11 @@ export class IntermediaryController {
     @Post('/create')
     public async postIntermediary(@Body() body: any) {
         return await this.service.postIntermediaryData(body)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/by/agent/:id')
+    public async getAgentIntermediaries(@Param('id') id: any) {
+        return await this.service.fetchIntermediariesViaAgentID(id)
     }
 }
