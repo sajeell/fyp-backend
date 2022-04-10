@@ -21,6 +21,9 @@ export class Order {
     bargainingID: string
 
     @Prop()
+    sellerID: string
+
+    @Prop()
     status?: string
 
     @Prop()
