@@ -3,12 +3,14 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Order, OrderDocument } from './order.schema'
 import { Model } from 'mongoose'
 import { ProductService } from 'src/product/product.service'
+import { BiddingService } from 'src/bidding/bidding.service'
 
 @Injectable()
 export class OrderService {
     constructor(
         @InjectModel(Order.name) private readonly model: Model<OrderDocument>,
         private readonly productService: ProductService,
+        private readonly biddingService: BiddingService
     ) { }
 
     async findAllViaBuyerID(buyerID: string): Promise<any> {
@@ -19,9 +21,9 @@ export class OrderService {
     }
 
     async createBiddingOrder(body: any): Promise<any> {
-        const { productID } = body
+        const { productID, biddingID } = body
         this.productService.decrementProductStock(productID)
-
+        this.biddingService.deleteByBiddingID(biddingID)
         const data = await new this.model({
             ...body,
             createdAt: new Date(),

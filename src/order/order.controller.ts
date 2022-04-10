@@ -13,8 +13,8 @@ export class OrderController {
         return await this.service.findAllViaBuyerID(id)
     }
 
-    @Post('/create')
-    async createOrder(@Body() body: any) {
+    @Post('/create/bidding')
+    async createOrderBidding(@Body() body: any) {
         return await this.service.createBiddingOrder(body)
     }
 }

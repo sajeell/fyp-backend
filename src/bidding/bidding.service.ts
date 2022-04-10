@@ -21,7 +21,7 @@ export class BiddingService {
     @InjectModel(Bidding.name) private readonly model: Model<BiddingDocument>,
     @InjectModel(BiddingParticipants.name)
     private readonly biddingParticipantsModel: Model<BiddingParticipantsDocument>,
-  ) {}
+  ) { }
 
   public setStartTime(startTimeArg): void {
     this.startTime = startTimeArg
@@ -325,6 +325,14 @@ export class BiddingService {
   public async fetchBiddingByProductID(productID: string): Promise<any> {
     const data = await this.model.findOne({
       productID: productID,
+    })
+
+    return data
+  }
+
+  public async deleteByBiddingID(biddingID: string): Promise<any> {
+    const data = await this.model.deleteOne({
+      _id: biddingID
     })
 
     return data
