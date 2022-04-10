@@ -6,7 +6,8 @@ import { IntermediaryService } from './intermediary.service';
 @ApiTags('Intermediary')
 @Controller('intermediary')
 export class IntermediaryController {
-    constructor(private readonly service: IntermediaryService) { }
+    constructor(private readonly service: IntermediaryService
+    ) { }
 
     @UseGuards(JwtAuthGuard)
     @Get()
@@ -24,5 +25,19 @@ export class IntermediaryController {
     @Get('/by/agent/:id')
     public async getAgentIntermediaries(@Param('id') id: any) {
         return await this.service.fetchIntermediariesViaAgentID(id)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/product/by/:id')
+    public async getProductViaIntermediary(@Param('id') id: any) {
+        console.log(id)
+        return await this.service.fetchProductViaIntermediary(id)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/deduct/commission')
+    public async deductCommission(@Body() body: any) {
+        const { intermediaryID, totalPrice, sellerID } = body
+        return await this.service.deductCommission(intermediaryID, totalPrice, sellerID)
     }
 }

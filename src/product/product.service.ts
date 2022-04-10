@@ -13,7 +13,7 @@ import {
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly model: Model<ProductDocument>,
-  ) {}
+  ) { }
 
   async findAll(
     collectionDto: CollectionDto,
@@ -24,7 +24,9 @@ export class ProductService {
 
   async findOneById(id: string): Promise<any> {
     try {
-      const data = await this.model.findById(id)
+      const data = await this.model.findOne({
+        _id: id
+      })
 
       if (data === null) {
         return {

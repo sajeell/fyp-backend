@@ -107,4 +107,14 @@ export class UserService {
 
     return response
   }
+
+  async addFunds(userID: string, funds: number): Promise<any> {
+    const response = await this.model.findOneAndUpdate({
+      _id: userID
+    }, {
+      funds: funds
+    })
+
+    return response
+  }
 }
