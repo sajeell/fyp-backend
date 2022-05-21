@@ -26,7 +26,11 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config)
 
-  SwaggerModule.setup('docs', app, document, {
+  const date = new Date()
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  SwaggerModule.setup(`docs/${year}/${month}/${day}`, app, document, {
     swaggerOptions: {
       persistAuthorization: true,
     },
