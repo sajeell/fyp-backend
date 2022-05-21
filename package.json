@@ -12,9 +12,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "postinstall": "tsc --sourceMap false && yarn copy:newrelic",
-    "copy:newrelic": "cpx 'src/newrelic.js' 'dist/src/newrelic.js'"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
     "@forlagshuset/nestjs-mongoose-paginate": "^1.2.2",

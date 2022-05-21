@@ -21,7 +21,6 @@ export class AuthController {
     private readonly userService: UserService,
   ) {}
 
-  @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Request() req) {
     if (typeof req != undefined) {

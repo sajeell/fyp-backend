@@ -7,9 +7,7 @@ import { AppModule } from 'src/app.module'
 require('newrelic')
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger: ['error', 'warn'],
-  })
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

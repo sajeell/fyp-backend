@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BargainService } from './bargain.service';
 
@@ -8,8 +8,14 @@ import { BargainService } from './bargain.service';
 export class BargainController {
     constructor(private readonly service: BargainService) { }
 
-    @Post('/')
+    @Post('/request')
     async postRequest(@Body() dto: any) {
-        return dto
+        return await this.service.postRequest(dto)
     }
+
+    @Post('/acceptrequest')
+    async acceptRequest(@Body() dto: any) {
+        return await this.service.acceptRequest(dto)
+    }
+
 }

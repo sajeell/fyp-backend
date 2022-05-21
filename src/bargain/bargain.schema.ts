@@ -11,6 +11,9 @@ export class Bargain {
     @Prop({ type: Number })
     currentPrice: Number
 
+    @Prop({ type: Number })
+    initialPrice: Number
+
     @Prop()
     sellerID: string
 
