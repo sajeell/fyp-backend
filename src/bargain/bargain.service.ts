@@ -9,6 +9,44 @@ export class BargainService {
         @InjectModel(Bargain.name) private readonly model: Model<BargainDocument>
     ) { }
 
+
+    async getAllRequests(): Promise<any> {
+        try {
+            const data = await this.model.find()
+
+            return data
+        } catch (error) {
+            console.error(error)
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    async getAllRequestsAssignedToSeller(sellerID: string): Promise<any> {
+        try {
+            const data = await this.model.find({
+                sellerID: sellerID
+            })
+
+            return data
+        } catch (error) {
+            console.error(error)
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    async getAllRequestsOfBuyer(buyerID: string): Promise<any> {
+        try {
+            const data = await this.model.find({
+                buyerID: buyerID
+            })
+
+            return data
+        } catch (error) {
+            console.error(error)
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
     async postRequest(dto: any): Promise<any> {
         try {
             const data = await new this.model({
@@ -25,14 +63,20 @@ export class BargainService {
 
     async acceptRequest(dto: any): Promise<any> {
         try {
-            const data = await new this.model({
-                ...dto,
-                createdAt: new Date(),
-            }).save()
 
-            console.log(await this.counterOffer(data._id))
+            const updateBargain = await this.model.findOneAndUpdate(
+                {
+                    _id: dto.id,
+                },
+                {
+                    status: 'accepted',
+                    sellerID: dto.sellerID
+                },
+            ).exec()
 
-            return data
+            console.log(updateBargain._id)
+
+            return updateBargain
         } catch (error) {
             console.error(error)
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
@@ -44,6 +88,20 @@ export class BargainService {
             const bargainDetails = await this.model.findById(bargainID)
 
             return bargainDetails
+        } catch (error) {
+            console.error(error)
+            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    async rejectRequest(dto: any): Promise<any> {
+        try {
+            const data = await new this.model({
+                ...dto,
+                createdAt: new Date(),
+            }).save()
+
+            return data
         } catch (error) {
             console.error(error)
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
