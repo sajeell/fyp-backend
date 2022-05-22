@@ -4,7 +4,6 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { ValidationPipe } from '@nestjs/common'
 
 import { AppModule } from 'src/app.module'
-require('newrelic')
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
