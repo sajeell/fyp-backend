@@ -9,7 +9,6 @@ export class BargainService {
         @InjectModel(Bargain.name) private readonly model: Model<BargainDocument>
     ) { }
 
-
     async getAllRequests(): Promise<any> {
         try {
             const data = await this.model.find()
@@ -74,7 +73,18 @@ export class BargainService {
                 },
             ).exec()
 
-            console.log(updateBargain._id)
+            const bargainID = updateBargain._id
+
+            await this.model.findOneAndUpdate(
+                {
+                    _id: bargainID,
+                },
+                {
+                    $inc: {
+                        currentPrice: updateBargain.initialPrice
+                    },
+                },
+            ).exec()
 
             return updateBargain
         } catch (error) {
@@ -86,7 +96,31 @@ export class BargainService {
     async counterOffer(bargainID: string): Promise<any> {
         try {
             const bargainDetails = await this.model.findById(bargainID)
-
+            if (bargainDetails.count <= 10) {
+                await this.model.findOneAndUpdate(
+                    {
+                        _id: bargainID,
+                    },
+                    {
+                        $inc: {
+                            count: 1,
+                            currentPrice: 10
+                        },
+                    },
+                ).exec()
+            }
+            else {
+                await this.model.findOneAndUpdate(
+                    {
+                        _id: bargainID,
+                    },
+                    {
+                        count: 0,
+                        status: 'complete',
+                        finalPrice: bargainDetails.currentPrice
+                    },
+                ).exec()
+            }
             return bargainDetails
         } catch (error) {
             console.error(error)

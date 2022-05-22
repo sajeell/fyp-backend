@@ -33,4 +33,9 @@ export class BargainController {
         return await this.service.acceptRequest(dto)
     }
 
+    @Get('/counter/:id')
+    async counterOffer(@Param('id') id: string) {
+        return await this.service.counterOffer(id)
+    }
+
 }

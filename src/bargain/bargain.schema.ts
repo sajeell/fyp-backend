@@ -26,6 +26,9 @@ export class Bargain {
     @Prop({ type: Number })
     finalPrice: Number
 
+    @Prop({ type: Number, default: 0 })
+    count: Number
+
     @Prop({ required: true })
     createdAt: Date
 
