@@ -18,7 +18,7 @@ export class NotificationService {
         // you can try with TLS, but port is then 587
         auth: {
           user: 'barganttic@gmail.com', // Your email id
-          pass: 'Barganttic*0300', // Your password
+          pass: 'wrtvcjauxidkzpdq', // Your password
         },
       }
 

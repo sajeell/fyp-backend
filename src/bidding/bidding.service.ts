@@ -2,13 +2,11 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Response } from 'express'
 import { Model } from 'mongoose'
-import { listeners } from 'process'
 import { NotificationService } from 'src/notification/notification.service'
 import { ProductService } from 'src/product/product.service'
-import { isNonNullExpression } from 'typescript'
 import {
   BiddingParticipants,
-  BiddingParticipantsDocument,
+  BiddingParticipantsDocument
 } from './bidding-participants.schema'
 import { Bidding, BiddingDocument } from './bidding.schema'
 
