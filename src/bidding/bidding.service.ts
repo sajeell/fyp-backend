@@ -210,6 +210,18 @@ export class BiddingService {
     return data
   }
 
+  public async fetchBiddingParticipants(id: string): Promise<any> {
+    const data = await this.biddingParticipantsModel
+      .find({
+        biddingID: id,
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+
+    return data
+  }
+
   public async fetchBiddingDetails(id: string): Promise<any> {
     const biddingDetails = await this.model.findOne({
       _id: id,

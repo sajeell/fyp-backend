@@ -8,7 +8,7 @@ import { BiddingService } from './bidding.service'
 @ApiTags('Bidding')
 @Controller('bidding')
 export class BiddingController {
-  constructor(private readonly service: BiddingService) {}
+  constructor(private readonly service: BiddingService) { }
 
   @Get('/start')
   async biddingStart() {
@@ -32,7 +32,7 @@ export class BiddingController {
   // @UseGuards(JwtAuthGuard)
   @Get('/participant/by/:id')
   async fetchBiddingParticipantDetail(@Param('id') id: string) {
-    return await this.service.fetchBiddingParticipant(id)
+    return await this.service.fetchBiddingParticipants(id)
   }
 
   // @UseGuards(JwtAuthGuard)
