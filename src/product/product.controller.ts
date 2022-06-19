@@ -21,12 +21,12 @@ import { Property } from './properties/property'
 @ApiTags('Product')
 @Controller('product')
 export class ProductController {
-  constructor(private readonly service: ProductService) {}
+  constructor(private readonly service: ProductService) { }
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getAll(@Query() query: CollectionDto) {
-    return await this.service.findAll(query)
+  async getAll() {
+    return await this.service.findAll()
   }
 
   @UseGuards(JwtAuthGuard)

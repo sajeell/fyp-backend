@@ -23,8 +23,20 @@ export class Bargain {
     @Prop()
     status: string
 
+    @Prop()
+    img: string
+
+    @Prop()
+    description: string
+
+    @Prop()
+    category: string
+
     @Prop({ type: Number })
     finalPrice: Number
+
+    @Prop({ type: Number })
+    highestBudget: Number
 
     @Prop({ type: Number, default: 0 })
     count: Number

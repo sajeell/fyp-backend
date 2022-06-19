@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"ad40726d0ee8451992d4e67948fa55e5","collectionName":"intermediaries","type":"collection"}

@@ -16,10 +16,8 @@ export class ProductService {
   ) { }
 
   async findAll(
-    collectionDto: CollectionDto,
-  ): Promise<CollectionResponse<ProductDocument>> {
-    const collector = new DocumentCollector<ProductDocument>(this.model)
-    return collector.find(collectionDto)
+  ): Promise<any> {
+    return this.model.find()
   }
 
   async findOneById(id: string): Promise<any> {

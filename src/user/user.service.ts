@@ -18,9 +18,7 @@ export class UserService {
 
   async findOne(id: string): Promise<User> {
     return await this.model.findOne({
-      where: {
-        _id: id,
-      },
+      _id: id,
     })
   }
 
